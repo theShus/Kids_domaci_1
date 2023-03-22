@@ -9,7 +9,7 @@ public class WebJob implements Job{
 
 
     @Override
-    public ScanType getType() {
+    public ScanType getScanType() {
         return null;
     }
 
@@ -23,8 +23,8 @@ public class WebJob implements Job{
         return null;
     }
 
-    @Override
-    public boolean isPoison() {
-        return false;
-    }
+//    @Override //todo ovo mozda skloni
+//    public boolean isPoison() {
+//        return false;
+//    }
 }

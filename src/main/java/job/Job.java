@@ -5,8 +5,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RecursiveTask;
 
 public interface Job {
-    ScanType getType();
+    ScanType getScanType();
     String getQuery();
     Future<Map<String, Integer>> initiate(RecursiveTask<?> task);
-    boolean isPoison();
+    //boolean isPoison(); todo ovo mozda skloni
 }

@@ -1,57 +1,63 @@
 package app;
 
-import crawler.CrawlerAssignor;
+import crawlers.CrawlerDispatcher;
+import job.Job;
+import job.JobDispatcher;
+import result.ResultRetriever;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ForkJoinPool;
 
-public class CrawlerApp {
+public class App {
 
-    //jobQueue
-    //jobDispatcher
-    private CrawlerAssignor crawlerAssignor;
-    //resultRetriever
+    public static BlockingQueue<Job> jobQueue;
+    public static ForkJoinPool fileScannerPool;
 
+    private JobDispatcher jobDispatcher;
+    private CrawlerDispatcher crawlerDispatcher;
+    public static ResultRetriever resultRetriever;
 
-    public CrawlerApp() {
-        this.crawlerAssignor = new CrawlerAssignor();
+    public App() {
+        jobQueue = new ArrayBlockingQueue<>(10);
+        fileScannerPool = new ForkJoinPool();
+
+        this.crawlerDispatcher = new CrawlerDispatcher();
+        this.jobDispatcher = new JobDispatcher();
+        resultRetriever = new ResultRetriever();
     }
 
-    public void start(){
+    public void start() throws InterruptedException {
         PropertyStorage.getInstance().loadProperties();
         this.startCommandParser();
     }
 
 
-    public void startCommandParser() {
+    public void startCommandParser() throws InterruptedException {
         Scanner cli = new Scanner(System.in);
         String line;
         String[] tokens;
         String command;
+        List<String> paths;
         String param;
 
         while(true) {
-//            System.out.print("$> ");
             line = cli.nextLine().trim();
             tokens = line.split(" ");
             command = tokens[0];
             param = null;
 
             if (line.isEmpty()) continue;
-
-            if(tokens.length == 2)
-                param = tokens[1];
-            else {
-                System.err.println("Too many params");
-                continue;
-            }
-
-//            int totalParams = tokens.length - 1; //todo useless
+            paths = generatePathList(tokens);
 
             switch(command) {
                 case "ad":
                     System.out.println("ADD FILE");
 //                    commander.addDirectory(param, totalParams);
-                    crawlerAssignor.startCrawler("FILE", param);
+                    crawlerDispatcher.startCrawler("FILE", paths);
                     break;
                 case "aw":
                     System.out.println("ADD WEB");
@@ -83,6 +89,14 @@ public class CrawlerApp {
                     break;
             }
         }
+    }
+
+    private ArrayList<String> generatePathList(String[] tokens){
+        ArrayList<String> paths = new ArrayList<>();
+        for (int i = 1; i < tokens.length; i++) {
+            paths.add(tokens[i]);
+        }
+        return paths;
     }
 
 }
