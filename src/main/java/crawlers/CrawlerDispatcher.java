@@ -1,8 +1,6 @@
 package crawlers;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CrawlerDispatcher {
 
@@ -18,7 +16,6 @@ public class CrawlerDispatcher {
     public void startCrawler(String crawlerType, List<String> paths) throws InterruptedException {
         if (crawlerType.equals("FILE")) {
             addPathsToCrawl(paths);
-
             if (!directoryCrawler.isAlive())
                 directoryCrawler.start();
         }

@@ -4,23 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job/JobDispatcher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/result/ResultRetriever.java" afterDir="false" />
+    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="Prolaz kroz direktorijume, i pocet rad na job-ovima">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/CrawlerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/PropertyStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/PropertyStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/crawler/CrawlerAssignor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/CrawlerDispatcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/crawler/DirectoryCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/DirectoryCrawler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/crawler/WebCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/WebCrawler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/FileJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/FileJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/Job.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/ScanType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/ScanType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/WebJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/WebJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/app.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/app.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/CrawlerDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/CrawlerDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/DirectoryCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/DirectoryCrawler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,8 +76,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679483017549</updated>
-      <workItem from="1679483018932" duration="21463000" />
+      <workItem from="1679483018932" duration="24060000" />
     </task>
+    <task id="LOCAL-00001" summary="Prolaz kroz direktorijume, i pocet rad na job-ovima">
+      <created>1679516269629</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679516269629</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,5 +101,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Prolaz kroz direktorijume, i pocet rad na job-ovima" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prolaz kroz direktorijume, i pocet rad na job-ovima" />
   </component>
 </project>

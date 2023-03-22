@@ -1,15 +1,12 @@
 package crawlers;
 
-import app.App;
 import app.PropertyStorage;
-import job.FileJob;
-import job.ScanType;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class DirectoryCrawler extends Thread {//todo proveri da li radi klasa pravilno
+public class DirectoryCrawler extends Thread {
 
     private HashMap<String, Long> lastModifiedMap;
     private CopyOnWriteArrayList<String> dirsToCrawl;
@@ -27,7 +24,7 @@ public class DirectoryCrawler extends Thread {//todo proveri da li radi klasa pr
                 for (String path : dirsToCrawl) {
                     crawl(new File(path));
                 }
-                Thread.sleep(10000);
+                Thread.sleep(50000);//todo vrati na propertyStorage.getInstance
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -43,7 +40,7 @@ public class DirectoryCrawler extends Thread {//todo proveri da li radi klasa pr
                 crawl(file);
             } else if (!file.isDirectory() && file.getParentFile().getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix())) {
                 System.out.println("Corpus file :" + file.getName());
-//                addJobToQueue(new File(""));
+                addJobToQueue(file);
             }
         }
     }
@@ -56,11 +53,13 @@ public class DirectoryCrawler extends Thread {//todo proveri da li radi klasa pr
         if (lastModifiedMap.containsKey(path)) {//ako smo vec prosli kroz dir
             if (lastModifiedMap.get(path) != lastModified) {//ako se jeste promenio u medjuvremenu
                 lastModifiedMap.put(path, lastModified);
-                App.jobQueue.put(new FileJob(ScanType.FILE, path));
+                System.err.println("Updated - " + path);
+//       todo         App.jobQueue.put(new FileJob(ScanType.FILE, path));
             }
         } else {//ako nismo prosli kroz dir
             lastModifiedMap.put(path, lastModified);
-            App.jobQueue.put(new FileJob(ScanType.FILE, path));
+            System.out.println("First time - " + path);
+//    todo        App.jobQueue.put(new FileJob(ScanType.FILE, path));
         }
     }
 

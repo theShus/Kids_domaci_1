@@ -53,40 +53,33 @@ public class App {
             if (line.isEmpty()) continue;
             paths = generatePathList(tokens);
 
-            switch(command) {
-                case "ad":
-                    System.out.println("ADD FILE");
-//                    commander.addDirectory(param, totalParams);
+            switch (command) {
+                case "ad" -> {
+                    System.out.println("ADDED NEW DIRECTORY");
                     crawlerDispatcher.startCrawler("FILE", paths);
-                    break;
-                case "aw":
-                    System.out.println("ADD WEB");
+                }
+                case "aw" -> System.out.println("ADD WEB");
+
 //                    commander.addWeb(param, totalParams);
-                    break;
-                case "get":
-                    System.out.println("RESULT SYNC");
+                case "get" -> System.out.println("RESULT SYNC");
+
 //                    commander.getResultSync(param, totalParams);
-                    break;
-                case "query":
-                    System.out.println();
+                case "query" -> System.out.println();
+
 //                    commander.getResultAsync(param, totalParams);
-                    break;
-                case "cfs":
-                    System.out.println("FILE SUMMARY");
+                case "cfs" -> System.out.println("FILE SUMMARY");
+
 //                    commander.clearSummaryFile(totalParams);
-                    break;
-                case "cws":
-                    System.out.println("WEB SUMMARY");
+                case "cws" -> System.out.println("WEB SUMMARY");
+
 //                    commander.clearSummaryWeb(totalParams);
-                    break;
-                case "stop":
+                case "stop" -> {
                     System.out.println("STOPPING");
 //                    commander.stopThreads();
                     cli.close();
                     return;
-                default:
-                    System.err.println("Unknown command");
-                    break;
+                }
+                default -> System.err.println("Unknown command");
             }
         }
     }
