@@ -29,13 +29,12 @@ public class ResultRetriever extends Thread {
 //                    WebScanResult webScanResult = (WebScanResult) result;
 //                    fileScannerResults.put(webScanResult.getCorpusName(), webScanResult);
                 }
-
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
 
     public void getResult(String corpusDirName){
         Map<String, Integer> scannerResult = null;
@@ -43,10 +42,11 @@ public class ResultRetriever extends Thread {
         if (dirScanResult != null)
             scannerResult = dirScanResult.getResult();
 
-        if (scannerResult == null) System.err.println("Error loading results from directory " + corpusDirName);
-
-        System.out.println(">Results for: " + corpusDirName);
-        System.out.println(scannerResult);
+        if (scannerResult == null){
+            System.err.println("Error loading results from directory " + corpusDirName);
+            return;
+        }
+        System.out.println(corpusDirName + " = " + scannerResult);
     }
 
     public void getSummary(){

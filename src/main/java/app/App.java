@@ -55,8 +55,8 @@ public class App {
         String line;
         String[] tokens;
         String command;
-        String path = null;
-//        List<String> paths;
+//        String path = null;
+        List<String> attributes;
 
         while(true) {
             line = cli.nextLine().trim();
@@ -64,15 +64,14 @@ public class App {
             command = tokens[0];
 
             if (line.isEmpty()) continue;
-//            paths = generatePathList(tokens);
-            if (tokens.length > 1) path = tokens[1];
+
+//                attributes = generatePathList(tokens);
 
 
             switch (command) {//todo dodaj cli checkove
                 case "ad" -> {
                     System.out.println("ADDED NEW DIRECTORIES");
-                    //dirsToCrawl.addAll(paths);
-                    dirsToCrawl.add(path);
+                    dirsToCrawl.add(tokens[1]);
                 }
                 case "aw" -> System.out.println("ADD WEB");
 
@@ -80,7 +79,8 @@ public class App {
                     resultRetriever.getSummary();
                 }
                 case "get" -> {
-                    resultRetriever.getResult(path);
+                    if (tokens[1].equals("--summary")) resultRetriever.getSummary();
+                    else  resultRetriever.getResult(tokens[1]);
                 }
                 case "query" -> System.out.println();
 
