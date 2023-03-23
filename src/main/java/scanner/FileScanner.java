@@ -3,6 +3,7 @@ package scanner;
 import app.App;
 import app.PropertyStorage;
 import job.jobs.DirectoryJob;
+import result.results.DirScanResult;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,38 +44,42 @@ public class FileScanner extends Thread {
     }
 
 
-    private void divideFiles(String corpusDirName, String dirPath) {
+    private void divideFiles(String corpusDirName, String corpusDirPath) {
         List<File> dividedFiles = new ArrayList<>();
+        List<Future<Map<String, Integer>>> dirScanResults = new ArrayList<>();
         long limit = PropertyStorage.getInstance().getFile_scanning_size_limit();
         long fileLengthSum = 0;
-        File[] filesToDivide = new File(dirPath).listFiles();
+        File[] corpusFilesToDivide = new File(corpusDirPath).listFiles();
 
-        assert filesToDivide != null;
-        for (File file : filesToDivide) {
+
+        assert corpusFilesToDivide != null;
+        for (File file : corpusFilesToDivide) {
             fileLengthSum += file.length();
             dividedFiles.add(file);
 
             if (fileLengthSum > limit) {
-                countWords(dividedFiles);
+//                countWords(dividedFiles, dirScanResults);
+                //u listu rezultata stavimo <- rezultat dir scannera <- koji je dobio listu podeljenih filova
+                dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
 
                 fileLengthSum = 0;
                 dividedFiles.clear();
             }
         }
         if (!dividedFiles.isEmpty()) {
-            countWords(dividedFiles);
+//            countWords(dividedFiles, dirScanResults);
+            dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
         }
-            //todo results
+
+        DirScanResult dirScan = new DirScanResult(corpusDirName, dirScanResults);
+        App.resultQueue.add(dirScan);
     }
 
-
-    private void countWords (List<File> files/*, List<Future<Map<String, Integer>>> results*/) {
-
-        FileScannerWorker fileScannerWorker = new FileScannerWorker(files);
-        Future<Map<String, Integer>> result = this.completionService.submit(fileScannerWorker);
-
-
-//        results.add(result);
-    }
+//    private void countWords (List<File> files, List<Future<Map<String, Integer>>> dirScanResults) {
+//
+//        FileScannerWorker fileScannerWorker = new FileScannerWorker(files);
+//        Future<Map<String, Integer>> result = this.completionService.submit(fileScannerWorker);
+//        dirScanResults.add(result);
+//    }
 
 }

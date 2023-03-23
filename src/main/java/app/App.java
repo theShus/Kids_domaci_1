@@ -55,7 +55,8 @@ public class App {
         String line;
         String[] tokens;
         String command;
-        List<String> paths;
+        String path = null;
+//        List<String> paths;
 
         while(true) {
             line = cli.nextLine().trim();
@@ -64,30 +65,45 @@ public class App {
 
             if (line.isEmpty()) continue;
 //            paths = generatePathList(tokens);
-            String path = tokens[1];
+            if (tokens.length > 1) path = tokens[1];
 
-            switch (command) {
+
+            switch (command) {//todo dodaj cli checkove
                 case "ad" -> {
                     System.out.println("ADDED NEW DIRECTORIES");
-//                    dirsToCrawl.addAll(paths);
+                    //dirsToCrawl.addAll(paths);
                     dirsToCrawl.add(path);
-
                 }
                 case "aw" -> System.out.println("ADD WEB");
 
-//                    commander.addWeb(param, totalParams);
-                case "get" -> System.out.println("RESULT SYNC");
+                case "get" -> {
+                    resultRetriever.getResult(path);
+                }
+                case "get --summary" ->{
 
-//                    commander.getResultSync(param, totalParams);
+                }
                 case "query" -> System.out.println();
 
-//                    commander.getResultAsync(param, totalParams);
-                case "cfs" -> System.out.println("FILE SUMMARY");
+                case "cfs" -> System.out.println("FILE cfs");
 
-//                    commander.clearSummaryFile(totalParams);
-                case "cws" -> System.out.println("WEB SUMMARY");
+                case "cws" -> System.out.println("WEB cws");
 
-//                    commander.clearSummaryWeb(totalParams);
+                case "help" -> {
+                    System.out.println
+                            (
+                            """
+                            --> ad <directory path/ directory absolute path> : add file directory to scan
+                            --> aw <htts> : add web page to scan
+                            --> get <corpus directory name> : gets result from scanned corpus directory
+                            --> get -summary : gets all results so far
+                            --> query <corpus directory name> : gets query result from scanned corpus directory
+                            --> cfs : clears file scan results
+                            --> cws : clears web scan results
+                            --> stop : stops the app and all the threads
+                            """
+                            );
+                }
+
                 case "stop" -> {
                     System.out.println("STOPPING");
 //                    commander.stopThreads();
