@@ -1,4 +1,4 @@
-package scanner;
+package scanner.file;
 
 import app.App;
 import app.PropertyStorage;
@@ -60,9 +60,7 @@ public class FileScanner extends Thread {
         if (!dividedFiles.isEmpty()) {
             dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
         }
-
-        DirScanResult dirScan = new DirScanResult(corpusDirName, dirScanResults);
-        App.resultQueue.add(dirScan);
+        App.resultQueue.add(new DirScanResult(corpusDirName, dirScanResults));
     }
 
 }

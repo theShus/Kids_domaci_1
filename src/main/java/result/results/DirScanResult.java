@@ -12,7 +12,6 @@ public class DirScanResult implements Result {
 
     private final String corpusName;
     private final List<Future<Map<String, Integer>>> futureResults;
-
     private Map<String, Integer> cachedResults = new HashMap<>();
 
     public DirScanResult(String corpusName, List<Future<Map<String, Integer>>> futureResults) {

@@ -34,8 +34,10 @@ public class DirectoryCrawler extends Thread {
         }
     }
 
+    //nadje corpus direktorijume i pretovori ih u File job i stavi na queue
     private void crawl(File inputFile) throws InterruptedException {
         File[] listFiles = inputFile.listFiles();
+        assert listFiles != null;
         for (File file : listFiles) {
             if (file.isDirectory()) {
                 if (file.getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix())) {
@@ -61,7 +63,6 @@ public class DirectoryCrawler extends Thread {
             App.jobQueue.put(new DirectoryJob(ScanType.FILE, dirPath, corpusDir.getName()));
         }
     }
-
 
     public CopyOnWriteArrayList<String> getDirsToCrawl() {
         return dirsToCrawl;

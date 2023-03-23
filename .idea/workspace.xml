@@ -4,15 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="ulepsan print i cli">
+    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="uradnjen ResultRetriever i dodati pozivi za cli">
+      <change afterPath="$PROJECT_DIR$/src/main/java/scanner/web/WebScanner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/scanner/web/WebScannerWorker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/DirectoryCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/DirectoryCrawler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/WebCrawler.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job/JobDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/JobDispatcher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job/jobs/DirectoryJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/jobs/DirectoryJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/jobs/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/jobs/Job.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job/jobs/WebJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/jobs/WebJob.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/result/ResultRetriever.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/ResultRetriever.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/FileScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/FileScanner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/result/results/DirScanResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/results/DirScanResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/result/results/WebScanResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/results/WebScanResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/FileScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/file/FileScanner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/FileScannerWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/file/FileScannerWorker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,11 +53,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/scanner" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Shus\Programming\IdeaProjects\Year 4\Kids_domaci_1\src\main\java\scanner" />
       <recent name="C:\Users\Shus\Programming\IdeaProjects\Year 4\Kids_domaci_1\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -81,7 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1679483017549</updated>
       <workItem from="1679483018932" duration="31311000" />
-      <workItem from="1679564735299" duration="19327000" />
+      <workItem from="1679564735299" duration="36509000" />
     </task>
     <task id="LOCAL-00001" summary="Prolaz kroz direktorijume, i pocet rad na job-ovima">
       <created>1679516269629</created>
@@ -132,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679587651307</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="uradnjen ResultRetriever i dodati pozivi za cli">
+      <created>1679588991661</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1679588991661</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,7 +172,8 @@
     <MESSAGE value="dodat result retriever (getResult)" />
     <MESSAGE value="zavrsen ResultRetriever za corpus" />
     <MESSAGE value="ulepsan print i cli" />
-    <option name="LAST_COMMIT_MESSAGE" value="ulepsan print i cli" />
+    <MESSAGE value="uradnjen ResultRetriever i dodati pozivi za cli" />
+    <option name="LAST_COMMIT_MESSAGE" value="uradnjen ResultRetriever i dodati pozivi za cli" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Kids_domaci_1$Main.ic" NAME="Main Coverage Results" MODIFIED="1679566282935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

@@ -16,10 +16,6 @@ public class DirectoryJob implements Job{
     private final String path;
     private final String corpusName;
 
-//    private boolean isPoison;
-//    private Future<Map<String,Integer>> jobResult;
-
-
     public DirectoryJob(ScanType scanType, String path, String corpusName) {
         this.scanType = scanType;
         this.path = path;
@@ -39,11 +35,4 @@ public class DirectoryJob implements Job{
         return corpusName;
     }
 
-//    public boolean isPoison() {
-//        return isPoison;
-//    }
-
-//    public Future<Map<String, Integer>> getJobResult() {
-//        return jobResult;
-//    }
 }

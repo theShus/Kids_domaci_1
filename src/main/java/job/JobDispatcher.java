@@ -19,10 +19,11 @@ public class JobDispatcher extends Thread {
                     App.directoryJobQueue.put((DirectoryJob) job);
                 }
                 else if (job.getScanType() == ScanType.WEB) {//todo proveri dal je ovo dobro
-                    System.err.println("webJob dodat u WBqueue");
+                    System.err.println(((WebJob) job).getUrl() + " dodat u WBqueue");
                     App.webJobQueue.put((WebJob) job);
                 }
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

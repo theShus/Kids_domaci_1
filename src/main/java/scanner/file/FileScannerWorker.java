@@ -1,7 +1,6 @@
-package scanner;
+package scanner.file;
 
 import app.PropertyStorage;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -24,9 +23,7 @@ public class FileScannerWorker implements Callable<Map<String, Integer>> {
         Map<String, Integer> results = new HashMap<>();
         String text;
 
-        // Set all keys to 0
-        for (String key: keywords)
-            results.put(key, 0);
+        for (String key: keywords) results.put(key, 0); //Stavimo sve kljuceve na  0
 
         //https://www.baeldung.com/java-regex-s-splus
         for (File file: this.files) {//todo sleep to test query results
@@ -36,6 +33,8 @@ public class FileScannerWorker implements Callable<Map<String, Integer>> {
                 while ((text = reader.readLine()) != null) {
                     String[] words = text.split("\\s+");
 
+                    //todo toLowerCase
+
                     for (String word: words) {
                         if (word != null && keywords.contains(word)) {
                             int count = results.get(word);
@@ -44,7 +43,8 @@ public class FileScannerWorker implements Callable<Map<String, Integer>> {
                     }
                 }
                 reader.close();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 System.err.println("Can not open file at - " + file.getAbsolutePath());
             }
         }

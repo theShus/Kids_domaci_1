@@ -2,15 +2,28 @@ package job.jobs;
 
 import job.ScanType;
 
-import java.util.Map;
-import java.util.concurrent.Future;
-import java.util.concurrent.RecursiveTask;
-
 public class WebJob implements Job{
+
+    private final ScanType scanType;
+    private final String url;
+    private final int hopCount;
+
+    public WebJob(ScanType scanType, String url, int hopCount) {
+        this.scanType = scanType;
+        this.url = url;
+        this.hopCount = hopCount;
+    }
 
     @Override
     public ScanType getScanType() {
-        return null;
+        return scanType;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public int getHopCount() {
+        return hopCount;
+    }
 }

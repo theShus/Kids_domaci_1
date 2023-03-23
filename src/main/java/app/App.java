@@ -1,8 +1,8 @@
 package app;
 
 import crawlers.DirectoryCrawler;
-import crawlers.WebCrawler;
 import job.JobDispatcher;
+import job.ScanType;
 import job.jobs.DirectoryJob;
 import job.jobs.Job;
 import job.jobs.WebJob;
@@ -10,7 +10,9 @@ import result.ResultRetriever;
 import result.results.DirScanResult;
 import result.results.Result;
 import result.results.WebScanResult;
-import scanner.FileScanner;
+import scanner.file.FileScanner;
+import scanner.web.WebScanner;
+
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -19,18 +21,21 @@ public class App {
 
     private static final CopyOnWriteArrayList<String> dirsToCrawl = new CopyOnWriteArrayList<>();
 
-    public static BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>(10);
+    //Queues
+    public static BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>(100);
     public static final BlockingQueue<DirectoryJob> directoryJobQueue = new LinkedBlockingQueue<>();
     public static final BlockingQueue<WebJob> webJobQueue = new LinkedBlockingQueue<>();
 
+    //Results
     public static final BlockingQueue<Result> resultQueue = new LinkedBlockingQueue<>();
-    public static final Map<String, DirScanResult> corpusScannerResults = new HashMap<>();
+    public static final Map<String, DirScanResult> fileScannerResults = new HashMap<>();
     public static final Map<String, WebScanResult> webScannerResults = new HashMap<>();
 
+    //Threads
     private static final ResultRetriever resultRetriever = new ResultRetriever();
     private static final DirectoryCrawler directoryCrawler = new DirectoryCrawler(dirsToCrawl);
-    private static final WebCrawler webCrawler = new WebCrawler();
     private static final FileScanner fileScanner = new FileScanner();
+    private static final WebScanner webScanner = new WebScanner();
     private static final JobDispatcher jobDispatcher = new JobDispatcher();
 
 
@@ -39,13 +44,12 @@ public class App {
 
         resultRetriever.start();
         directoryCrawler.start();
-//todo     webCrawler.start();
         fileScanner.start();
+        webScanner.start();
         jobDispatcher.start();
 
         startCommandParser();
     }
-
 
 
     private void startCommandParser() {
@@ -56,7 +60,7 @@ public class App {
 //        String path = null;
         List<String> attributes;
 
-        while(true) {
+        while (true) {
             line = cli.nextLine().trim();
             tokens = line.split(" ");
             command = tokens[0];
@@ -71,35 +75,40 @@ public class App {
                     System.out.println("ADDED NEW DIRECTORIES");
                     dirsToCrawl.add(tokens[1]);
                 }
-                case "aw" -> System.out.println("ADD WEB");
-
+                case "aw" -> {
+                    System.out.println("ADD WEB");
+                    jobQueue.add(new WebJob(ScanType.WEB, tokens[1], PropertyStorage.getInstance().getHop_count()));
+                }
                 case "get" -> {
-                    if (tokens[1].equals("--summary")) resultRetriever.getSummary();
-                    else  resultRetriever.getResult(tokens[1]);
+                    if (tokens[1].equals("-file")){
+                        if (tokens[2].equals("-summary")) resultRetriever.getFileSummary();
+                        else resultRetriever.getFileResult(tokens[2]);
+                    }
+                    else if (tokens[1].equals("-web")){
+                        if (tokens[2].equals("-summary")) resultRetriever.getWebSummary();
+                        else resultRetriever.getWebResult(tokens[2]);
+                    }
                 }
                 case "query" -> {
-                    if (tokens[1].equals("--summary")) resultRetriever.getQuerySummary();
-                    else  resultRetriever.getQueryResult(tokens[1]);
+                    if (tokens[1].equals("-summary")) resultRetriever.getFileQuerySummary();
+                    else resultRetriever.getFileQueryResult(tokens[1]);
                 }
-
                 case "cfs" -> System.out.println("FILE cfs");
-
                 case "cws" -> System.out.println("WEB cws");
-
-                case "help" -> {
+                case "help" -> {//todo popravi help
                     System.out.println
                             (
-                            """
-                            --> ad <directory path/ directory absolute path> : add file directory to scan
-                            --> aw <https> : add web page to scan
-                            --> get <corpus directory name> : gets result from scanned corpus directory
-                            --> get -summary : gets all results so far
-                            --> query <corpus directory name> : gets query result from scanned corpus directory
-                            --> query --summary : gets all results that are done so far
-                            --> cfs : clears file scan results
-                            --> cws : clears web scan results
-                            --> stop : stops the app and all the threads
-                            """
+                                    """
+                                            --> ad <directory path/ directory absolute path> : add file directory to scan
+                                            --> aw <https> : add web page to scan
+                                            --> get <corpus directory name> : gets result from scanned corpus directory
+                                            --> get -summary : gets all results so far
+                                            --> query <corpus directory name> : gets query result from scanned corpus directory
+                                            --> query -summary : gets all results that are done so far
+                                            --> cfs : clears file scan results
+                                            --> cws : clears web scan results
+                                            --> stop : stops the app and all the threads
+                                            """
                             );
                 }
                 case "stop" -> {
