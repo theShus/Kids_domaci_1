@@ -6,12 +6,13 @@ import job.JobDispatcher;
 import job.jobs.DirectoryJob;
 import job.jobs.Job;
 import job.jobs.WebJob;
+import result.ResultRetriever;
+import result.results.DirScanResult;
 import result.results.Result;
+import result.results.WebScanResult;
 import scanner.FileScanner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,34 +24,26 @@ public class App {
     public static BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>(10);
     public static final BlockingQueue<DirectoryJob> directoryJobQueue = new LinkedBlockingQueue<>();
     public static final BlockingQueue<WebJob> webJobQueue = new LinkedBlockingQueue<>();
+
     public static final BlockingQueue<Result> resultQueue = new LinkedBlockingQueue<>();
+    public static final Map<String, DirScanResult> corpusScannerResults = new HashMap<>();
+    public static final Map<String, WebScanResult> webScannerResults = new HashMap<>();
 
-
+    private static final ResultRetriever resultRetriever = new ResultRetriever();
     private static final DirectoryCrawler directoryCrawler = new DirectoryCrawler(dirsToCrawl);
     private static final WebCrawler webCrawler = new WebCrawler();
     private static final FileScanner fileScanner = new FileScanner();
     private static final JobDispatcher jobDispatcher = new JobDispatcher();
-    //todo private final ResultRetriever resultRetriever = new ResultRetriever();
-
-    public static ForkJoinPool fileScannerPool = new ForkJoinPool();
-
 
 
     public void start() {
         PropertyStorage.getInstance().loadProperties();
 
-        Thread crawlerThread = new Thread(directoryCrawler, "DirectoryCrawler");
-        crawlerThread.start();
-
-        //todo
-//        Thread thread = new Thread(webCrawler, "WebCrawler");
-//        thread.start();
-
-        Thread scannerThread = new Thread(fileScanner, "fileScanner");
-        scannerThread.start();
-
-        Thread dispatcherThread = new Thread(jobDispatcher, "JobDispatcher");
-        dispatcherThread.start();
+        resultRetriever.start();
+        directoryCrawler.start();
+//todo     webCrawler.start();
+        fileScanner.start();
+        jobDispatcher.start();
 
         startCommandParser();
     }
@@ -70,12 +63,15 @@ public class App {
             command = tokens[0];
 
             if (line.isEmpty()) continue;
-            paths = generatePathList(tokens);
+//            paths = generatePathList(tokens);
+            String path = tokens[1];
 
             switch (command) {
                 case "ad" -> {
                     System.out.println("ADDED NEW DIRECTORIES");
-                    dirsToCrawl.addAll(paths);
+//                    dirsToCrawl.addAll(paths);
+                    dirsToCrawl.add(path);
+
                 }
                 case "aw" -> System.out.println("ADD WEB");
 
@@ -98,7 +94,7 @@ public class App {
                     cli.close();
                     return;
                 }
-                default -> System.err.println("Unknown command");
+                default -> System.err.println("Unknown command 😞");
             }
         }
     }
