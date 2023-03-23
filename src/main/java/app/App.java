@@ -11,11 +11,9 @@ import result.results.DirScanResult;
 import result.results.Result;
 import result.results.WebScanResult;
 import scanner.FileScanner;
-
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class App {
 
@@ -75,14 +73,14 @@ public class App {
                 }
                 case "aw" -> System.out.println("ADD WEB");
 
-                case "get-summary" ->{
-                    resultRetriever.getSummary();
-                }
                 case "get" -> {
                     if (tokens[1].equals("--summary")) resultRetriever.getSummary();
                     else  resultRetriever.getResult(tokens[1]);
                 }
-                case "query" -> System.out.println();
+                case "query" -> {
+                    if (tokens[1].equals("--summary")) resultRetriever.getQuerySummary();
+                    else  resultRetriever.getQueryResult(tokens[1]);
+                }
 
                 case "cfs" -> System.out.println("FILE cfs");
 
@@ -93,17 +91,17 @@ public class App {
                             (
                             """
                             --> ad <directory path/ directory absolute path> : add file directory to scan
-                            --> aw <htts> : add web page to scan
+                            --> aw <https> : add web page to scan
                             --> get <corpus directory name> : gets result from scanned corpus directory
                             --> get -summary : gets all results so far
                             --> query <corpus directory name> : gets query result from scanned corpus directory
+                            --> query --summary : gets all results that are done so far
                             --> cfs : clears file scan results
                             --> cws : clears web scan results
                             --> stop : stops the app and all the threads
                             """
                             );
                 }
-
                 case "stop" -> {
                     System.out.println("STOPPING");
 //                    commander.stopThreads();
@@ -113,14 +111,6 @@ public class App {
                 default -> System.err.println("Unknown command 😞");
             }
         }
-    }
-
-    private ArrayList<String> generatePathList(String[] tokens){
-        ArrayList<String> paths = new ArrayList<>();
-        for (int i = 1; i < tokens.length; i++) {
-            paths.add(tokens[i]);
-        }
-        return paths;
     }
 
 }

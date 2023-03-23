@@ -31,12 +31,6 @@ public class DirectoryJob implements Job{
         return scanType;
     }
 
-    @Override
-    public String getQuery() {
-        return null; //todo getQuery u file job
-    }
-
-
     public String getPath() {
         return path;
     }

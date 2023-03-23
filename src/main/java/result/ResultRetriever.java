@@ -5,7 +5,6 @@ import job.ScanType;
 import result.results.DirScanResult;
 import result.results.Result;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ResultRetriever extends Thread {
@@ -49,9 +48,29 @@ public class ResultRetriever extends Thread {
         System.out.println(corpusDirName + " = " + scannerResult);
     }
 
+    public void getQueryResult(String corpusDirName){
+        Map<String, Integer> scannerResult = null;
+        DirScanResult dirScanResult = App.corpusScannerResults.get(corpusDirName);
+        if (dirScanResult != null)
+            scannerResult = dirScanResult.getQueryResult();
+
+        if (scannerResult == null){
+            System.err.println("Error loading results from directory " + corpusDirName);
+            return;
+        }
+        System.out.println(corpusDirName + " = " + scannerResult);
+    }
+
     public void getSummary(){
         for (Map.Entry<String, DirScanResult> result: App.corpusScannerResults.entrySet()) {
             System.out.println(result.getKey() + " = " + result.getValue().getResult());
+        }
+    }
+
+    public void getQuerySummary(){
+        for (Map.Entry<String, DirScanResult> result: App.corpusScannerResults.entrySet()) {
+            if (result.getValue().getQueryResult() == null) System.out.println(result.getKey() + " = data not ready yet");
+            else System.out.println(result.getKey() + " = " + result.getValue().getQueryResult());
         }
     }
 

@@ -8,18 +8,9 @@ import java.util.concurrent.RecursiveTask;
 
 public class WebJob implements Job{
 
-
-
     @Override
     public ScanType getScanType() {
         return null;
     }
-
-    @Override
-    public String getQuery() {
-        return null;
-    }
-
-
 
 }

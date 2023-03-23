@@ -4,12 +4,10 @@ import app.App;
 import app.PropertyStorage;
 import job.jobs.DirectoryJob;
 import result.results.DirScanResult;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,18 +29,12 @@ public class FileScanner extends Thread {
         while (true) {
             try {
                 DirectoryJob directoryJob = App.directoryJobQueue.take();
-
-                //todo if poisonus
-
-
                 divideFiles(directoryJob.getCorpusName(), directoryJob.getPath());
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
 
     private void divideFiles(String corpusDirName, String corpusDirPath) {
         List<File> dividedFiles = new ArrayList<>();
@@ -58,7 +50,6 @@ public class FileScanner extends Thread {
             dividedFiles.add(file);
 
             if (fileLengthSum > limit) {
-//                countWords(dividedFiles, dirScanResults);
                 //u listu rezultata stavimo <- rezultat dir scannera <- koji je dobio listu podeljenih filova
                 dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
 
@@ -67,19 +58,11 @@ public class FileScanner extends Thread {
             }
         }
         if (!dividedFiles.isEmpty()) {
-//            countWords(dividedFiles, dirScanResults);
             dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
         }
 
         DirScanResult dirScan = new DirScanResult(corpusDirName, dirScanResults);
         App.resultQueue.add(dirScan);
     }
-
-//    private void countWords (List<File> files, List<Future<Map<String, Integer>>> dirScanResults) {
-//
-//        FileScannerWorker fileScannerWorker = new FileScannerWorker(files);
-//        Future<Map<String, Integer>> result = this.completionService.submit(fileScannerWorker);
-//        dirScanResults.add(result);
-//    }
 
 }

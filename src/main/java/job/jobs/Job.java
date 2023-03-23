@@ -8,6 +8,4 @@ import java.util.concurrent.RecursiveTask;
 
 public interface Job {
     ScanType getScanType();
-    String getQuery();
-    //boolean isPoison(); todo ovo mozda skloni
 }

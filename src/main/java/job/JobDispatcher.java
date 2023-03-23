@@ -14,8 +14,6 @@ public class JobDispatcher extends Thread {
             try {
                 Job job = App.jobQueue.take();
 
-                //todo if job is Poison
-
                 if (job.getScanType() == ScanType.FILE) {
                     System.err.println(((DirectoryJob) job).getCorpusName() + " dodat u FJqueue");
                     App.directoryJobQueue.put((DirectoryJob) job);

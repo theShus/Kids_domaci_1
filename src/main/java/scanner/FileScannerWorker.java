@@ -29,7 +29,7 @@ public class FileScannerWorker implements Callable<Map<String, Integer>> {
             results.put(key, 0);
 
         //https://www.baeldung.com/java-regex-s-splus
-        for (File file: this.files) {
+        for (File file: this.files) {//todo sleep to test query results
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(file.getAbsolutePath()));
 
