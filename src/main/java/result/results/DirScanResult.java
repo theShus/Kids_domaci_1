@@ -15,21 +15,11 @@ public class DirScanResult implements Result {
 
     private Map<String, Integer> cachedResults = new HashMap<>();
 
-
     public DirScanResult(String corpusName, List<Future<Map<String, Integer>>> futureResults) {
         this.corpusName = corpusName;
         this.futureResults = futureResults;
     }
 
-    public DirScanResult() {
-        this.corpusName = null;
-        this.futureResults = null;
-    }
-
-    @Override
-    public ScanType getScanType() {
-        return ScanType.FILE;
-    }
 
     @Override
     public Map<String, Integer> getResult() {
@@ -37,7 +27,6 @@ public class DirScanResult implements Result {
 
         if (!cachedResults.isEmpty()) return cachedResults; //ako imamo cash vratimo ga
         if (futureResults == null) return null;
-
 
         //prodjemo kroz listu rezultata (lista jer podeljeni filovi u fragmente)
         //svaki element liste je mapa, prodjemo kroz njih i stavimo sve vrednosti u jednu Total mapu
@@ -79,6 +68,11 @@ public class DirScanResult implements Result {
         if (scanningFinished) return getResult();
 
         return null;
+    }
+
+    @Override
+    public ScanType getScanType() {
+        return ScanType.FILE;
     }
 
     public String getCorpusName() {

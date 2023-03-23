@@ -76,11 +76,11 @@ public class App {
                 }
                 case "aw" -> System.out.println("ADD WEB");
 
+                case "get-summary" ->{
+                    resultRetriever.getSummary();
+                }
                 case "get" -> {
                     resultRetriever.getResult(path);
-                }
-                case "get --summary" ->{
-
                 }
                 case "query" -> System.out.println();
 

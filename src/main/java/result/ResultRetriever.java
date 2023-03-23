@@ -5,6 +5,7 @@ import job.ScanType;
 import result.results.DirScanResult;
 import result.results.Result;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ResultRetriever extends Thread {
@@ -44,12 +45,14 @@ public class ResultRetriever extends Thread {
 
         if (scannerResult == null) System.err.println("Error loading results from directory " + corpusDirName);
 
-        System.out.println(scannerResult);//todo mozda da se promeni nacin printanja
-
+        System.out.println(">Results for: " + corpusDirName);
+        System.out.println(scannerResult);
     }
 
     public void getSummary(){
-
+        for (Map.Entry<String, DirScanResult> result: App.corpusScannerResults.entrySet()) {
+            System.out.println(result.getKey() + " = " + result.getValue().getResult());
+        }
     }
 
 }

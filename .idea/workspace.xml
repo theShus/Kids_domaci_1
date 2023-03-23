@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="namesten cli da prima jednu liniju">
+    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="dodat result retriever (getResult)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/result/ResultRetriever.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/ResultRetriever.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/result/results/DirScanResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/results/DirScanResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/result/results/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/results/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/result/results/WebScanResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/results/WebScanResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/FileScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/FileScanner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +77,7 @@
       <option name="presentableId" value="Default" />
       <updated>1679483017549</updated>
       <workItem from="1679483018932" duration="31311000" />
-      <workItem from="1679564735299" duration="16377000" />
+      <workItem from="1679564735299" duration="17297000" />
     </task>
     <task id="LOCAL-00001" summary="Prolaz kroz direktorijume, i pocet rad na job-ovima">
       <created>1679516269629</created>
@@ -110,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679584731455</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="dodat result retriever (getResult)">
+      <created>1679585819113</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1679585819113</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,7 +137,8 @@
     <MESSAGE value="podesen addJobToQueue (bez dodavanja) da radi pravilno" />
     <MESSAGE value="postavljeni file scanner i file worker (sledece result retriever)" />
     <MESSAGE value="namesten cli da prima jednu liniju" />
-    <option name="LAST_COMMIT_MESSAGE" value="namesten cli da prima jednu liniju" />
+    <MESSAGE value="dodat result retriever (getResult)" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodat result retriever (getResult)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Kids_domaci_1$Main.ic" NAME="Main Coverage Results" MODIFIED="1679566282935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
