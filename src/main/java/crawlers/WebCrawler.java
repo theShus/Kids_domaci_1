@@ -1,14 +1,14 @@
 package crawlers;
 
-public class WebCrawler {
+public class WebCrawler extends Thread{
 
 
     public void crawl(String startPath){
 
     }
 
-    public void stop(){
-        //todo
+    @Override
+    public void run() {
+        super.run();
     }
-
 }

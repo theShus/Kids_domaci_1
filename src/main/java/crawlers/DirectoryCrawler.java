@@ -1,6 +1,9 @@
 package crawlers;
 
+import app.App;
 import app.PropertyStorage;
+import job.jobs.DirectoryJob;
+import job.ScanType;
 
 import java.io.File;
 import java.util.HashMap;
@@ -12,9 +15,9 @@ public class DirectoryCrawler extends Thread {
     private CopyOnWriteArrayList<String> dirsToCrawl;
 
 
-    public DirectoryCrawler() {
+    public DirectoryCrawler(CopyOnWriteArrayList<String> dirsToCrawl) {
         lastModifiedMap = new HashMap<>();
-        dirsToCrawl = new CopyOnWriteArrayList<>();
+        this.dirsToCrawl = dirsToCrawl;
     }
 
     @Override
@@ -24,7 +27,7 @@ public class DirectoryCrawler extends Thread {
                 for (String path : dirsToCrawl) {
                     crawl(new File(path));
                 }
-                Thread.sleep(50000);//todo vrati na propertyStorage.getInstance
+                Thread.sleep(5000);//todo vrati na propertyStorage.getInstance
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -35,48 +38,32 @@ public class DirectoryCrawler extends Thread {
         File[] listFiles = inputFile.listFiles();
         for (File file : listFiles) {
             if (file.isDirectory()) {
-                if (file.getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix()))
-                    System.out.println("Corpus dir: -" + file.getName());
+                if (file.getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix())) {
+//                    System.out.println("Corpus dir: -" + file.getName());
+                    addJobToQueue(file);
+                }
                 crawl(file);
-            } else if (!file.isDirectory() && file.getParentFile().getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix())) {
-                System.out.println("Corpus file :" + file.getName());
-                addJobToQueue(file);
             }
         }
     }
-
 
     private void addJobToQueue(File corpusDir) throws InterruptedException {
-        String path = corpusDir.getAbsolutePath();
+        String dirPath = corpusDir.getAbsolutePath();
         long lastModified = corpusDir.lastModified();
 
-        if (lastModifiedMap.containsKey(path)) {//ako smo vec prosli kroz dir
-            if (lastModifiedMap.get(path) != lastModified) {//ako se jeste promenio u medjuvremenu
-                lastModifiedMap.put(path, lastModified);
-                System.err.println("Updated - " + path);
-//       todo         App.jobQueue.put(new FileJob(ScanType.FILE, path));
+        if (lastModifiedMap.containsKey(dirPath)) {//ako smo vec prosli jednom kroz dir
+            if (lastModifiedMap.get(dirPath) != lastModified) {//ako se jeste promenio u medjuvremenu
+                lastModifiedMap.put(dirPath, lastModified);
+                App.jobQueue.put(new DirectoryJob(ScanType.FILE, dirPath, corpusDir.getName()));
             }
-        } else {//ako nismo prosli kroz dir
-            lastModifiedMap.put(path, lastModified);
-            System.out.println("First time - " + path);
-//    todo        App.jobQueue.put(new FileJob(ScanType.FILE, path));
+        } else {//ako dir nemamo u mapi
+            lastModifiedMap.put(dirPath, lastModified);
+            App.jobQueue.put(new DirectoryJob(ScanType.FILE, dirPath, corpusDir.getName()));
         }
     }
 
-
-    public HashMap<String, Long> getLastModifiedMap() {
-        return lastModifiedMap;
-    }
-
-    public void setLastModifiedMap(HashMap<String, Long> lastModifiedMap) {
-        this.lastModifiedMap = lastModifiedMap;
-    }
 
     public CopyOnWriteArrayList<String> getDirsToCrawl() {
         return dirsToCrawl;
-    }
-
-    public void setDirsToCrawl(CopyOnWriteArrayList<String> dirsToCrawl) {
-        this.dirsToCrawl = dirsToCrawl;
     }
 }

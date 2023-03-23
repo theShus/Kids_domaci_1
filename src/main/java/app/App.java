@@ -1,62 +1,81 @@
 package app;
 
-import crawlers.CrawlerDispatcher;
-import job.Job;
+import crawlers.DirectoryCrawler;
+import crawlers.WebCrawler;
 import job.JobDispatcher;
-import result.ResultRetriever;
+import job.jobs.DirectoryJob;
+import job.jobs.Job;
+import job.jobs.WebJob;
+import result.results.Result;
+import scanner.FileScanner;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class App {
 
-    public static BlockingQueue<Job> jobQueue;
-    public static ForkJoinPool fileScannerPool;
+    private static final CopyOnWriteArrayList<String> dirsToCrawl = new CopyOnWriteArrayList<>();
 
-    private JobDispatcher jobDispatcher;
-    private CrawlerDispatcher crawlerDispatcher;
-    public static ResultRetriever resultRetriever;
+    public static BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>(10);
+    public static final BlockingQueue<DirectoryJob> directoryJobQueue = new LinkedBlockingQueue<>();
+    public static final BlockingQueue<WebJob> webJobQueue = new LinkedBlockingQueue<>();
+    public static final BlockingQueue<Result> resultQueue = new LinkedBlockingQueue<>();
 
-    public App() {
-        jobQueue = new ArrayBlockingQueue<>(10);
-        fileScannerPool = new ForkJoinPool();
 
-        this.crawlerDispatcher = new CrawlerDispatcher();
-        this.jobDispatcher = new JobDispatcher();
-        resultRetriever = new ResultRetriever();
-    }
+    private static final DirectoryCrawler directoryCrawler = new DirectoryCrawler(dirsToCrawl);
+    private static final WebCrawler webCrawler = new WebCrawler();
+    private static final FileScanner fileScanner = new FileScanner();
+    private static final JobDispatcher jobDispatcher = new JobDispatcher();
+    //todo private final ResultRetriever resultRetriever = new ResultRetriever();
 
-    public void start() throws InterruptedException {
+    public static ForkJoinPool fileScannerPool = new ForkJoinPool();
+
+
+
+    public void start() {
         PropertyStorage.getInstance().loadProperties();
-        this.startCommandParser();
+
+        Thread crawlerThread = new Thread(directoryCrawler, "DirectoryCrawler");
+        crawlerThread.start();
+
+        //todo
+//        Thread thread = new Thread(webCrawler, "WebCrawler");
+//        thread.start();
+
+        Thread scannerThread = new Thread(fileScanner, "fileScanner");
+        scannerThread.start();
+
+        Thread dispatcherThread = new Thread(jobDispatcher, "JobDispatcher");
+        dispatcherThread.start();
+
+        startCommandParser();
     }
 
 
-    public void startCommandParser() throws InterruptedException {
+
+    private void startCommandParser() {
         Scanner cli = new Scanner(System.in);
         String line;
         String[] tokens;
         String command;
         List<String> paths;
-        String param;
 
         while(true) {
             line = cli.nextLine().trim();
             tokens = line.split(" ");
             command = tokens[0];
-            param = null;
 
             if (line.isEmpty()) continue;
             paths = generatePathList(tokens);
 
             switch (command) {
                 case "ad" -> {
-                    System.out.println("ADDED NEW DIRECTORY");
-                    crawlerDispatcher.startCrawler("FILE", paths);
+                    System.out.println("ADDED NEW DIRECTORIES");
+                    dirsToCrawl.addAll(paths);
                 }
                 case "aw" -> System.out.println("ADD WEB");
 

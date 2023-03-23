@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="Prolaz kroz direktorijume, i pocet rad na job-ovima">
+    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="podesen addJobToQueue (bez dodavanja) da radi pravilno">
+      <change afterPath="$PROJECT_DIR$/src/main/java/result/results/DirScanResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/result/results/Result.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/result/results/WebScanResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/scanner/FileScanner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/scanner/FileScannerWorker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/CrawlerDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/CrawlerDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/CrawlerDispatcher.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/DirectoryCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/DirectoryCrawler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/crawlers/WebCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/crawlers/WebCrawler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job/FileJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/jobs/DirectoryJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/jobs/Job.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job/JobDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/JobDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job/WebJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/jobs/WebJob.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +86,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679483017549</updated>
-      <workItem from="1679483018932" duration="24060000" />
+      <workItem from="1679483018932" duration="31311000" />
+      <workItem from="1679564735299" duration="7041000" />
     </task>
     <task id="LOCAL-00001" summary="Prolaz kroz direktorijume, i pocet rad na job-ovima">
       <created>1679516269629</created>
@@ -85,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679516269629</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="podesen addJobToQueue (bez dodavanja) da radi pravilno">
+      <created>1679519811326</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679519811326</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,9 +119,14 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Prolaz kroz direktorijume, i pocet rad na job-ovima" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prolaz kroz direktorijume, i pocet rad na job-ovima" />
+    <MESSAGE value="podesen addJobToQueue (bez dodavanja) da radi pravilno" />
+    <option name="LAST_COMMIT_MESSAGE" value="podesen addJobToQueue (bez dodavanja) da radi pravilno" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Kids_domaci_1$Main.ic" NAME="Main Coverage Results" MODIFIED="1679566282935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -1,4 +1,6 @@
-package job;
+package job.jobs;
+
+import job.ScanType;
 
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -18,13 +20,6 @@ public class WebJob implements Job{
         return null;
     }
 
-    @Override
-    public Future<Map<String, Integer>> initiate(RecursiveTask<?> task) {
-        return null;
-    }
 
-//    @Override //todo ovo mozda skloni
-//    public boolean isPoison() {
-//        return false;
-//    }
+
 }
