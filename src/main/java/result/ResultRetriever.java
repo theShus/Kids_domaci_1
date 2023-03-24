@@ -168,7 +168,7 @@ public class ResultRetriever extends Thread {
         System.out.println(corpusDirName + " = " + scannerResult);
     }
 
-    public void getFileSummary() {//todo postavi da daje zbir za directory
+    public void getFileSummary() {
         for (Map.Entry<String, DirScanResult> result : App.fileScannerResults.entrySet()) {
             System.out.println(result.getKey() + " = " + result.getValue().getResult());
         }

@@ -104,7 +104,7 @@ public class App {
                 case "cfs" -> {
                     fileScannerResults.clear();
                 }
-                case "cws" ->{//todo ocisti listu skeniranih
+                case "cws" ->{
                     if (tokens[1].equals("-domain")) {
                         if (!webScannerResults.containsKey(tokens[2])) System.err.println("Domain you entered is not scanned yet");
                         webScannerResults.remove(tokens[2]);

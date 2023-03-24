@@ -26,14 +26,12 @@ public class FileScannerWorker implements Callable<Map<String, Integer>> {
         for (String key: keywords) results.put(key, 0); //Stavimo sve kljuceve na  0
 
         //https://www.baeldung.com/java-regex-s-splus
-        for (File file: this.files) {//todo sleep to test query results
+        for (File file: this.files) {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(file.getAbsolutePath()));
 
                 while ((text = reader.readLine()) != null) {
                     String[] words = text.split("\\s+");
-
-                    //todo toLowerCase
 
                     for (String word: words) {
                         if (word != null && keywords.contains(word)) {
