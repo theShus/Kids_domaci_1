@@ -28,8 +28,9 @@ public class App {
 
     //Results
     public static final BlockingQueue<Result> resultQueue = new LinkedBlockingQueue<>();
-    public static final Map<String, DirScanResult> fileScannerResults = new HashMap<>();
-    public static final Map<String, WebScanResult> webScannerResults = new HashMap<>();
+    public static final Map<String, DirScanResult> fileScannerResults = new ConcurrentHashMap<>();
+    public static final Map<String, WebScanResult> webScannerResults = new ConcurrentHashMap<>();
+    public static final Map<String, Future<Map<String, Integer>>> webDomainResults = new ConcurrentHashMap<>();
 
     //Threads
     private static final ResultRetriever resultRetriever = new ResultRetriever();
@@ -38,6 +39,17 @@ public class App {
     private static final WebScanner webScanner = new WebScanner();
     private static final JobDispatcher jobDispatcher = new JobDispatcher();
 
+
+    //todo list
+    /*
+        popravi get summary za filove da vraca za direktorijume sumirano
+        napravi get za web rezultate
+        listu skeniranih linkova, da ne ulazi opet u njih
+        brisanje linkova iz ^ liste
+        stop metodu
+        clear file rez
+        clear web rez
+     */
 
     public void start() {
         PropertyStorage.getInstance().loadProperties();
@@ -52,7 +64,7 @@ public class App {
     }
 
 
-    private void startCommandParser() {
+    private void startCommandParser(){
         Scanner cli = new Scanner(System.in);
         String line;
         String[] tokens;
@@ -86,7 +98,7 @@ public class App {
                     }
                     else if (tokens[1].equals("-web")){
                         if (tokens[2].equals("-summary")) resultRetriever.getWebSummary();
-                        else resultRetriever.getWebResult(tokens[2]);
+                        else resultRetriever.getDomainResults(tokens[2]);
                     }
                 }
                 case "query" -> {
