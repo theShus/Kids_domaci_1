@@ -27,7 +27,7 @@ public class DirectoryCrawler extends Thread {
                 for (String path : dirsToCrawl) {
                     crawl(new File(path));
                 }
-                Thread.sleep(5000);//todo vrati na propertyStorage.getInstance
+                Thread.sleep(PropertyStorage.getInstance().getDir_crawler_sleep_time());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
