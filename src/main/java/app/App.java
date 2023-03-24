@@ -97,8 +97,8 @@ public class App {
                         else resultRetriever.getFileResult(tokens[2]);
                     }
                     else if (tokens[1].equals("-web")){
-                        if (tokens[2].equals("-summary")) resultRetriever.getWebSummary();
-                        else resultRetriever.getDomainResults(tokens[2]);
+                        if (tokens[2].equals("-summary")) resultRetriever.getWebDomainSummary();
+                        else resultRetriever.getDomainResult(tokens[2]);
                     }
                 }
                 case "query" -> {
