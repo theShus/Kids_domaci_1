@@ -6,6 +6,7 @@ import job.ScanType;
 import job.jobs.DirectoryJob;
 import job.jobs.Job;
 import job.jobs.WebJob;
+import logger.Logger;
 import result.ResultRetriever;
 import result.ClearType;
 import result.results.DirScanResult;
@@ -20,7 +21,9 @@ import java.util.concurrent.*;
 
 public class App {
 
+    //Else
     private static final CopyOnWriteArrayList<String> dirsToCrawl = new CopyOnWriteArrayList<>();
+    public static final Logger logger = new Logger();
 
     //Queues
     public static BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>(100);
@@ -41,7 +44,7 @@ public class App {
     private static final JobDispatcher jobDispatcher = new JobDispatcher();
 
 
-    public void start() {
+    public void start() {//pokrenemo sve threadove
         PropertyStorage.getInstance().loadProperties();
 
         resultRetriever.start();
@@ -67,16 +70,13 @@ public class App {
 
             if (line.isEmpty()) continue;
 
-//                attributes = generatePathList(tokens);
-
-
             switch (command) {//todo dodaj cli checkove
                 case "ad" -> {
-                    System.out.println("ADDED NEW DIRECTORIES");
+                    logger.cli("Added directory to scan list 🦊");
                     dirsToCrawl.add(tokens[1]);
                 }
                 case "aw" -> {
-                    System.out.println("ADD WEB");
+                    logger.cli("Added url to scan list 🐺");
                     jobQueue.add(new WebJob(ScanType.WEB, tokens[1], PropertyStorage.getInstance().getHop_count()));
                 }
                 case "get" -> {
@@ -99,8 +99,12 @@ public class App {
                         else resultRetriever.getWebDomainQueryResult(tokens[2]);
                     }
                 }
-                case "cfs" -> fileScannerResults.clear();
+                case "cfs" -> {
+                    logger.cli("Wiping stored results from file scanning 💀");
+                    fileScannerResults.clear();
+                }
                 case "cws" ->{
+                    logger.cli("Wiping stored results from web scanning 💀");
                     if (tokens[1].equals("-domain")) {
                         if (!webScannerResults.containsKey(tokens[2])) System.err.println("Domain you entered is not scanned yet");
                         webScannerResults.remove(tokens[2]);
@@ -112,7 +116,7 @@ public class App {
                         resultRetriever.clearCashStorage(ClearType.ALL, null);
                     }
                 }
-                case "help" -> System.out.println
+                case "help" -> logger.cli
                         (
                                 """
                                 --> ad < directory path/ directory absolute path > : add file directory to scan
@@ -134,7 +138,7 @@ public class App {
                                 """
                         );
                 case "stop" -> {
-                    System.out.println("STOPPING");
+                    logger.cli("Stopping the app 👋");
                     stopThreads();
                     cli.close();
                     return;

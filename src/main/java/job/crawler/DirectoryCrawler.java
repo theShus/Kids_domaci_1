@@ -2,6 +2,7 @@ package job.crawler;
 
 import app.App;
 import app.PropertyStorage;
+import jdk.swing.interop.SwingInterOpUtils;
 import job.jobs.DirectoryJob;
 import job.ScanType;
 
@@ -35,13 +36,15 @@ public class DirectoryCrawler extends Thread {
         }
     }
 
-    //nadje corpus direktorijume i pretovori ih u File job i stavi na queue
+    //nadje corpus direktorijume
+    //pretovori ih u File job i prosledi lastModified-checku da stavi na JobQueue za JobDispatcher
     private void crawl(File inputFile) throws InterruptedException {
         File[] listFiles = inputFile.listFiles();
         assert listFiles != null;
         for (File file : listFiles) {
             if (file.isDirectory()) {
                 if (file.getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix())) {
+                    App.logger.logCrawler("Found corpus directory " + file.getName());
                     addJobToQueue(file);
                 }
                 crawl(file);
@@ -49,22 +52,25 @@ public class DirectoryCrawler extends Thread {
         }
     }
 
+    //kada nadjemo file koji nema isti lastModified kao u mapi
+    //pravimo ga u job i stavljamo na queue
     private void addJobToQueue(File corpusDir) throws InterruptedException {
         String dirPath = corpusDir.getAbsolutePath();
-        long lastModified = corpusDir.lastModified();
+        long lastModified;
 
-        if (lastModifiedMap.containsKey(dirPath)) {//ako smo vec prosli jednom kroz dir
-            if (lastModifiedMap.get(dirPath) != lastModified) {//ako se jeste promenio u medjuvremenu
-                lastModifiedMap.put(dirPath, lastModified);
+        for (File corpusFile : corpusDir.listFiles()) {
+            lastModified = corpusFile.lastModified();
+
+            if (lastModifiedMap.getOrDefault(corpusFile.getName(), 0L) != lastModified) {
                 App.jobQueue.put(new DirectoryJob(ScanType.FILE, dirPath, corpusDir.getName()));
+                App.logger.crawlerJobDetection(corpusFile.getName() + " is un-scanned adding directory to job queue");
+                lastModifiedMap.put(corpusFile.getName(), lastModified);
             }
-        } else {//ako dir nemamo u mapi
-            lastModifiedMap.put(dirPath, lastModified);
-            App.jobQueue.put(new DirectoryJob(ScanType.FILE, dirPath, corpusDir.getName()));
         }
     }
 
-    public void terminate(){
+    public void terminate() {
+        System.err.println("Terminating DirectoryCrawler thread");
         running = false;
     }
 

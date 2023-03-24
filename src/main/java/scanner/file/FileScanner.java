@@ -27,7 +27,7 @@ public class FileScanner extends Thread {
 
 
     @Override
-    public void run() {
+    public void run() {//pokupi posao i podeli filove na threadove ako treba
         while (running) {
             try {
                 DirectoryJob directoryJob = App.directoryJobQueue.take();
@@ -39,14 +39,15 @@ public class FileScanner extends Thread {
     }
 
     private void divideFiles(String corpusDirName, String corpusDirPath) {
-        System.out.println("UZELI SMO DIR JOB");
         List<File> dividedFiles = new ArrayList<>();
         List<Future<Map<String, Integer>>> dirScanResults = new ArrayList<>();
         long limit = PropertyStorage.getInstance().getFile_scanning_size_limit();
         long fileLengthSum = 0;
         File[] corpusFilesToDivide = new File(corpusDirPath).listFiles();
 
-
+        //prolazi i sabiraj filove, ako je zbir veci od dozvoljenog
+        //pokreni thread sa prikupljenim
+        //nastavi da saklupljas dalje dok ne ostanes bez filova u corpus direktorijumu
         assert corpusFilesToDivide != null;
         for (File file : corpusFilesToDivide) {
             fileLengthSum += file.length();
@@ -63,7 +64,7 @@ public class FileScanner extends Thread {
         if (!dividedFiles.isEmpty()) {
             dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
         }
-        System.out.println(corpusDirName + " dodat result queue");
+        App.logger.fileScanner(corpusDirName + " added to result queue");
         App.resultQueue.add(new DirScanResult(corpusDirName, dirScanResults));
     }
 

@@ -13,16 +13,16 @@ public class JobDispatcher extends Thread {
     @Override
     public void run() {
 
-        while (running) {
+        while (running) {//uzima poslove sa jobQueue i rasporedjuje ih u File ili Web queue
             try {
                 Job job = App.jobQueue.take();
 
                 if (job.getScanType() == ScanType.FILE) {
-//                    System.err.println(((DirectoryJob) job).getCorpusName() + " dodat u FJqueue");
+                    App.logger.jobDispatcher(((DirectoryJob) job).getCorpusName() + " added to fileJob queue");
                     App.directoryJobQueue.put((DirectoryJob) job);
                 }
                 else if (job.getScanType() == ScanType.WEB) {
-//                    System.err.println(((WebJob) job).getUrl() + " dodat u WBqueue");
+                    App.logger.jobDispatcher(((WebJob) job).getUrl() + " added to webJob queue");
                     App.webJobQueue.put((WebJob) job);
                 }
             }
@@ -33,6 +33,7 @@ public class JobDispatcher extends Thread {
     }
 
     public void terminate(){
+        System.err.println("Terminating JobDispatcher thread");
         running = false;
     }
 }

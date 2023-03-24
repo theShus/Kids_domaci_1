@@ -14,7 +14,7 @@ public class UrlRefresher extends Thread {
 
 
     @Override
-    public void run() {
+    public void run() {//zavrti se svahih neko vreme, prodje kroz mapu skeniranih url-ova i skloni ih ako im je istekao refresh block
         while (running) {
 
             for (Map.Entry<String, Long> scannedUrl : scannedUrls.entrySet())

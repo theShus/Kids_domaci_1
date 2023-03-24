@@ -33,9 +33,8 @@ public class WebScannerWorker implements Callable<Map<String, Integer>> {
             Document website = Jsoup.connect(urlToScan).get();
 
 
-            results = countWords();//vraca rezultat stranice gde se trenutno nalazimo
+            results = countWords();//vraca rezultat brojanja stranice gde se trenutno nalazimo
 
-            //todo dodaj listu vec predjenih
             //pravimo nove web job-ove od url-ova na ternutnom web site-u
             if (hopCount > 0) {
                 for (String embeddedUrl : getEmbeddedUrls(website)) {
@@ -51,12 +50,12 @@ public class WebScannerWorker implements Callable<Map<String, Integer>> {
     }
 
 
+    //prodje kroz sve reci na website-u i prebroji ih ako su keywords
     private Map<String, Integer> countWords() {
         Map<String, Integer> results = new HashMap<>();
         String word;
 
-        for (String key : keywords)
-            results.put(key, 0); //Stavimo sve kljuceve na  0
+        for (String key : keywords) results.put(key, 0); //Stavimo sve kljuceve na  0
 
         try {
             Scanner websiteFile = new Scanner(Jsoup.connect(urlToScan).get().text());
@@ -85,9 +84,10 @@ public class WebScannerWorker implements Callable<Map<String, Integer>> {
             if (url == null || url.isEmpty() || url.isBlank()) continue;
 
             url = url.replaceAll(" ", "%20");
+            url = url.replaceAll("’", "%20");
             urls.add(url);
         }
-        System.err.println("ucitano je " + urls.size() + " url-ova");
+        App.logger.webScanner("ucitano je " + urls.size() + " url-ova");
         return urls;
     }
 

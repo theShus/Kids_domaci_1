@@ -5,7 +5,6 @@ import job.ScanType;
 import result.results.DirScanResult;
 import result.results.Result;
 import result.results.WebScanResult;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,17 +24,18 @@ public class ResultRetriever extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() {//uzima sa result queue i rasporedjuje na File ili Web queue
         while (running) {
             try {
                 Result result = App.resultQueue.take();
 
                 if (result.getScanType() == ScanType.FILE) {
-//                    System.err.println(((DirScanResult) result).getCorpusName() + " dodat u FS results");
+                    App.logger.resultRetrieverSorter(((DirScanResult) result).getCorpusName() + " added to file scan results");
                     DirScanResult dirScanResult = (DirScanResult) result;
                     App.fileScannerResults.put(dirScanResult.getCorpusName(), dirScanResult);
-                } else if (result.getScanType() == ScanType.WEB) {
-//                    System.err.println(((WebScanResult) result).getUrl() + " dodat u WS results");
+                }
+                else if (result.getScanType() == ScanType.WEB) {
+                    App.logger.resultRetrieverSorter(((WebScanResult) result).getUrl() + " added to web scan results");
                     WebScanResult webScanResult = (WebScanResult) result;
                     App.webScannerResults.put(webScanResult.getUrl(), webScanResult);
                 }
@@ -73,13 +73,13 @@ public class ResultRetriever extends Thread {
             }
 
             if (webDomainResultsCash.containsKey(domainUrl)) {
-                System.out.println("Cash rezultat za: " + domainUrl + " = " + webDomainResultsCash.get(domainUrl));
+                App.logger.resultRetriever("Cash rezultat za: " + domainUrl + " = " + webDomainResultsCash.get(domainUrl));
                 return;
             }
 
             App.webDomainResults.put(domainUrl, this.completionService.submit(new WebDomainSumWorker(domainUrl)));
             webDomainResultsCash.put(domainUrl, App.webDomainResults.get(domainUrl).get());
-            System.out.println("Rezultat za: " + domainUrl + " = " + App.webDomainResults.get(domainUrl).get());
+            App.logger.resultRetriever("Result for: " + domainUrl + " = " + App.webDomainResults.get(domainUrl).get());
 
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -91,11 +91,11 @@ public class ResultRetriever extends Thread {
 
         for (String dUrl : allDomains)
             App.webDomainResults.put(dUrl, this.completionService.submit(new WebDomainSumWorker(dUrl)));
-        System.out.println(">> submitted " + allDomains.size() + " domains to calculate results");
+        App.logger.resultRetriever(">> submitted " + allDomains.size() + " domains to calculate results");
 
         try {
             for (Map.Entry<String, Future<Map<String, Integer>>> domainRes : App.webDomainResults.entrySet()) {
-                System.out.println("Rezultat za: " + domainRes.getKey() + " = " + domainRes.getValue().get());
+                App.logger.resultRetriever("Result for: " + domainRes.getKey() + " = " + domainRes.getValue().get());
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -107,18 +107,18 @@ public class ResultRetriever extends Thread {
         try {
 
             if (!allDomains.contains(domainUrl)) {
-                System.err.println("Domain with entered url not found in results - " + domainUrl);
+                App.logger.resultRetriever("Domain with entered url not found in results - " + domainUrl);
                 return;
             }
 
             if (webDomainQueryResultsCash.containsKey(domainUrl)) {
-                System.out.println("Cash query rezultat za: " + domainUrl + " = " + webDomainQueryResultsCash.get(domainUrl));
+                App.logger.resultRetriever("Cash query result for: " + domainUrl + " = " + webDomainQueryResultsCash.get(domainUrl));
                 return;
             }
 
             App.webDomainResults.put(domainUrl, this.completionService.submit(new WebDomainQuerySumWorker(domainUrl)));
             webDomainQueryResultsCash.put(domainUrl, App.webDomainResults.get(domainUrl).get());
-            System.out.println("Rezultat za: " + domainUrl + " = " + App.webDomainResults.get(domainUrl).get());
+            App.logger.resultRetriever("Result for: " + domainUrl + " = " + App.webDomainResults.get(domainUrl).get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -130,11 +130,11 @@ public class ResultRetriever extends Thread {
 
         for (String dUrl : allDomains)
             App.webDomainResults.put(dUrl, this.completionService.submit(new WebDomainQuerySumWorker(dUrl)));
-        System.out.println(">> submitted " + allDomains.size() + " domains to query calculate results");
+        App.logger.resultRetriever(">> submitted " + allDomains.size() + " domains to query calculate results");
 
         try {
             for (Map.Entry<String, Future<Map<String, Integer>>> domainRes : App.webDomainResults.entrySet()) {
-                System.out.println("Rezultat za: " + domainRes.getKey() + " = " + domainRes.getValue().get());
+                App.logger.resultRetriever("Result for: " + domainRes.getKey() + " = " + domainRes.getValue().get());
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -152,7 +152,7 @@ public class ResultRetriever extends Thread {
             System.err.println("Error loading results from directory " + corpusDirName);
             return;
         }
-        System.out.println(corpusDirName + " = " + scannerResult);
+        App.logger.resultRetriever(corpusDirName + " = " + scannerResult);
     }
 
     public void getFileQueryResult(String corpusDirName) {
@@ -165,20 +165,20 @@ public class ResultRetriever extends Thread {
             System.err.println("Error loading results from directory " + corpusDirName);
             return;
         }
-        System.out.println(corpusDirName + " = " + scannerResult);
+        App.logger.resultRetriever(corpusDirName + " = " + scannerResult);
     }
 
     public void getFileSummary() {
         for (Map.Entry<String, DirScanResult> result : App.fileScannerResults.entrySet()) {
-            System.out.println(result.getKey() + " = " + result.getValue().getResult());
+            App.logger.resultRetriever(result.getKey() + " = " + result.getValue().getResult());
         }
     }
 
     public void getFileQuerySummary() {
         for (Map.Entry<String, DirScanResult> result : App.fileScannerResults.entrySet()) {
             if (result.getValue().getQueryResult() == null)
-                System.out.println(result.getKey() + " = data not ready yet");
-            else System.out.println(result.getKey() + " = " + result.getValue().getQueryResult());
+                System.err.println(result.getKey() + " = data not ready yet");
+            else App.logger.resultRetriever(result.getKey() + " = " + result.getValue().getQueryResult());
         }
     }
 

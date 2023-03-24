@@ -30,7 +30,7 @@ public class FileScannerWorker implements Callable<Map<String, Integer>> {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(file.getAbsolutePath()));
 
-                while ((text = reader.readLine()) != null) {
+                while ((text = reader.readLine()) != null) {//samo otvori file, splituje po " " i prebroji reci
                     String[] words = text.split("\\s+");
 
                     for (String word: words) {

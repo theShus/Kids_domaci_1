@@ -50,7 +50,7 @@ public class DirScanResult implements Result {
         return totalScanResult;
     }
 
-    @Override
+    @Override//ako je rezultat gotov vrati ga, ako nije vrati null
     public Map<String, Integer> getQueryResult() {
         boolean scanningFinished = true;
 

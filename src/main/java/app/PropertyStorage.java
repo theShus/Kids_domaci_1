@@ -32,6 +32,7 @@ public class PropertyStorage {
         return instance;
     }
 
+    //ucitamo iz app.properties
     public void loadProperties() {
         file_corpus_prefix = readProperty("file_corpus_prefix");
         dir_crawler_sleep_time = Long.parseLong(readProperty("dir_crawler_sleep_time"));
@@ -42,7 +43,7 @@ public class PropertyStorage {
     }
 
     private String readProperty(String keyName) {
-        System.out.println("Loading property " + keyName);
+        App.logger.propertyStorage("Loading property " + keyName);
         return properties.getProperty(keyName, "Missing data");
     }
 

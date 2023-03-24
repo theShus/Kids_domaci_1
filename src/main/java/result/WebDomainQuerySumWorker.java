@@ -22,12 +22,12 @@ public class WebDomainQuerySumWorker implements Callable<Map<String, Integer>> {
         //prodjemo kroz sve rezultate i trazimo domen koji nam treba
         for (Map.Entry<String, WebScanResult> singleWebResult : App.webScannerResults.entrySet()) {
 
-            if (!singleWebResult.getValue().getDomain().equals(domainUrl)) {//ako nije onaj koji zelimo da sumiramo preskoci ga
-                System.out.println("still calcluating for: " + domainUrl);
+            if (!singleWebResult.getValue().getDomain().equals(domainUrl)) continue;//ako nije onaj koji zelimo da sumiramo preskoci ga
+
+            if (singleWebResult.getValue().getQueryResult() == null) {//ako rez nije gotov samo preskocimo sabiranje
+                System.err.println("still calcluating for: " + domainUrl);
                 continue;
             }
-
-            if (singleWebResult.getValue().getQueryResult() == null) continue; //ako rez nije gotov samo preskocimo sabiranje
 
             for (Map.Entry<String, Integer> singlePageResults : singleWebResult.getValue().getQueryResult().entrySet()) {
                 int oldValue = domainQueryResultMap.getOrDefault(singlePageResults.getKey(), 0);
