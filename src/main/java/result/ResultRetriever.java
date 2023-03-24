@@ -7,7 +7,6 @@ import result.results.Result;
 import result.results.WebScanResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -16,7 +15,9 @@ public class ResultRetriever extends Thread {
 
     private final List<String> allDomains = new ArrayList<>();
     private final ExecutorCompletionService<Map<String, Integer>> completionService;
-//    private
+    private final Map<String, Map<String, Integer>> webDomainResultsCash = new ConcurrentHashMap<>();
+    private final Map<String, Map<String, Integer>> webDomainQueryResultsCash = new ConcurrentHashMap<>();
+    //todo clear cash u nekom trenutku
 
     public ResultRetriever() {
         ExecutorService threadPool = Executors.newCachedThreadPool();
@@ -48,6 +49,7 @@ public class ResultRetriever extends Thread {
 
     //RESULT FUNCTIONS FOR WEB
 
+    @Deprecated
     public void getSingleUrlResult(String url) {
         Map<String, Integer> scannerResult = null;
         WebScanResult webScanResult = App.webScannerResults.get(url);
@@ -64,18 +66,26 @@ public class ResultRetriever extends Thread {
 
     public void getDomainResult(String domainUrl) {
         getAllDomains();
-        if (!allDomains.contains(domainUrl))
-            System.err.println("Domain with entered url not found in results- " + domainUrl);
-
-        App.webDomainResults.put(domainUrl, this.completionService.submit(new WebDomainSumWorker(domainUrl)));
-
         try {
+
+            if (!allDomains.contains(domainUrl)) {
+                System.err.println("Domain with entered url not found in results - " + domainUrl);
+                return;
+            }
+
+            if (webDomainResultsCash.containsKey(domainUrl)) {
+                System.out.println("Cash rezultat za: " + domainUrl + " = " + webDomainResultsCash.get(domainUrl));
+                return;
+            }
+
+            App.webDomainResults.put(domainUrl, this.completionService.submit(new WebDomainSumWorker(domainUrl)));
+            webDomainResultsCash.put(domainUrl, App.webDomainResults.get(domainUrl).get());
             System.out.println("Rezultat za: " + domainUrl + " = " + App.webDomainResults.get(domainUrl).get());
+
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
-
 
     public void getWebDomainSummary() {
         getAllDomains();
@@ -93,13 +103,43 @@ public class ResultRetriever extends Thread {
         }
     }
 
-    public void getWebDomainQuery(){
+    public void getWebDomainQueryResult(String domainUrl) {
+        getAllDomains();
+        try {
 
+            if (!allDomains.contains(domainUrl)) {
+                System.err.println("Domain with entered url not found in results - " + domainUrl);
+                return;
+            }
+
+            if (webDomainQueryResultsCash.containsKey(domainUrl)) {
+                System.out.println("Cash query rezultat za: " + domainUrl + " = " + webDomainQueryResultsCash.get(domainUrl));
+                return;
+            }
+
+            App.webDomainResults.put(domainUrl, this.completionService.submit(new WebDomainQuerySumWorker(domainUrl)));
+            webDomainQueryResultsCash.put(domainUrl, App.webDomainResults.get(domainUrl).get());
+            System.out.println("Rezultat za: " + domainUrl + " = " + App.webDomainResults.get(domainUrl).get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void getWebDomainQuerySummary(){
+    public void getWebDomainQuerySummary() {
+        getAllDomains();
 
+        for (String dUrl : allDomains)
+            App.webDomainResults.put(dUrl, this.completionService.submit(new WebDomainQuerySumWorker(dUrl)));
+        System.out.println(">> submitted " + allDomains.size() + " domains to query calculate results");
+
+        try {
+            for (Map.Entry<String, Future<Map<String, Integer>>> domainRes : App.webDomainResults.entrySet()) {
+                System.out.println("Rezultat za: " + domainRes.getKey() + " = " + domainRes.getValue().get());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     //RESULT FUNCTIONS FOR FILES

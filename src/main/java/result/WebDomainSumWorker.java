@@ -29,7 +29,7 @@ public class WebDomainSumWorker implements Callable<Map<String, Integer>> {
                 domainResultMap.put(singlePageResults.getKey(), oldValue + singlePageResults.getValue());//sumiramo sve vrednosti istih key word-ova za zeljeni domen
             }
         }
-        System.err.println("Zavrseno racunanje za domen " + domainUrl);
+//        System.err.println("Zavrseno racunanje za domen " + domainUrl);
         return domainResultMap;
     }
 

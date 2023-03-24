@@ -1,0 +1,11 @@
+ad src/main/resources/example
+
+get -file corpus_riker
+get -file -summary
+
+---------
+
+aw https://www.gatesnotes.com/2019-Annual-Letter
+
+get -web gatesnotes.com
+get -web -summary

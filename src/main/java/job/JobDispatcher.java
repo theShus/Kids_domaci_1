@@ -16,10 +16,10 @@ public class JobDispatcher extends Thread {
 
                 if (job.getScanType() == ScanType.FILE) {
                     System.err.println(((DirectoryJob) job).getCorpusName() + " dodat u FJqueue");
-                    App.directoryJobQueue.put((DirectoryJob) job);
+//                    App.directoryJobQueue.put((DirectoryJob) job);
                 }
                 else if (job.getScanType() == ScanType.WEB) {//todo proveri dal je ovo dobro
-                    System.err.println(((WebJob) job).getUrl() + " dodat u WBqueue");
+//                    System.err.println(((WebJob) job).getUrl() + " dodat u WBqueue");
                     App.webJobQueue.put((WebJob) job);
                 }
             }

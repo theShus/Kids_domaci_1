@@ -1,6 +1,6 @@
 package app;
 
-import crawlers.DirectoryCrawler;
+import job.crawler.DirectoryCrawler;
 import job.JobDispatcher;
 import job.ScanType;
 import job.jobs.DirectoryJob;
@@ -102,8 +102,14 @@ public class App {
                     }
                 }
                 case "query" -> {
-                    if (tokens[1].equals("-summary")) resultRetriever.getFileQuerySummary();
-                    else resultRetriever.getFileQueryResult(tokens[1]);
+                    if (tokens[1].equals("-file")){
+                        if (tokens[2].equals("-summary")) resultRetriever.getFileSummary();
+                        else resultRetriever.getFileQueryResult(tokens[2]);
+                    }
+                    else if (tokens[1].equals("-web")){
+                        if (tokens[2].equals("-summary")) resultRetriever.getWebDomainQuerySummary();
+                        else resultRetriever.getWebDomainQueryResult(tokens[2]);
+                    }
                 }
                 case "cfs" -> System.out.println("FILE cfs");
                 case "cws" -> System.out.println("WEB cws");

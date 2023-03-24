@@ -1,4 +1,4 @@
-package crawlers;
+package job.crawler;
 
 import app.App;
 import app.PropertyStorage;
