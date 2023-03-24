@@ -39,6 +39,7 @@ public class FileScanner extends Thread {
     }
 
     private void divideFiles(String corpusDirName, String corpusDirPath) {
+        System.out.println("UZELI SMO DIR JOB");
         List<File> dividedFiles = new ArrayList<>();
         List<Future<Map<String, Integer>>> dirScanResults = new ArrayList<>();
         long limit = PropertyStorage.getInstance().getFile_scanning_size_limit();
@@ -62,6 +63,7 @@ public class FileScanner extends Thread {
         if (!dividedFiles.isEmpty()) {
             dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
         }
+        System.out.println(corpusDirName + " dodat result queue");
         App.resultQueue.add(new DirScanResult(corpusDirName, dirScanResults));
     }
 

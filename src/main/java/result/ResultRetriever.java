@@ -18,7 +18,6 @@ public class ResultRetriever extends Thread {
     private final Map<String, Map<String, Integer>> webDomainResultsCash = new ConcurrentHashMap<>();
     private final Map<String, Map<String, Integer>> webDomainQueryResultsCash = new ConcurrentHashMap<>();
     private boolean running = true;
-    //todo clear cash u nekom trenutku
 
     public ResultRetriever() {
         ExecutorService threadPool = Executors.newCachedThreadPool();
@@ -183,12 +182,22 @@ public class ResultRetriever extends Thread {
         }
     }
 
-
     private void getAllDomains() {
         allDomains.clear();
         for (Map.Entry<String, WebScanResult> result : App.webScannerResults.entrySet()) {
             if (result.getValue().getResult().isEmpty() || result.getValue().getResult() == null) continue;
             if (!allDomains.contains(result.getValue().getDomain())) allDomains.add(result.getValue().getDomain());
+        }
+    }
+
+    public void clearCashStorage(ClearType clearType, String domain){
+        if (clearType == ClearType.ALL){
+            webDomainResultsCash.clear();
+            webDomainQueryResultsCash.clear();
+        }
+        else if (clearType == ClearType.DOMAIN){
+            webDomainResultsCash.remove(domain);
+            webDomainQueryResultsCash.remove(domain);
         }
     }
 

@@ -7,11 +7,11 @@ import job.jobs.DirectoryJob;
 import job.jobs.Job;
 import job.jobs.WebJob;
 import result.ResultRetriever;
+import result.ClearType;
 import result.results.DirScanResult;
 import result.results.Result;
 import result.results.WebScanResult;
 import scanner.file.FileScanner;
-import scanner.web.UrlRefresher;
 import scanner.web.WebScanner;
 
 import java.util.*;
@@ -40,18 +40,6 @@ public class App {
     private static final WebScanner webScanner = new WebScanner();
     private static final JobDispatcher jobDispatcher = new JobDispatcher();
 
-
-
-    //todo list
-    /*
-        popravi get summary za filove da vraca za direktorijume sumirano
-        napravi get za web rezultate
-        listu skeniranih linkova, da ne ulazi opet u njih
-        brisanje linkova iz ^ liste
-        stop metodu
-        clear file rez
-        clear web rez
-     */
 
     public void start() {
         PropertyStorage.getInstance().loadProperties();
@@ -113,21 +101,41 @@ public class App {
                         else resultRetriever.getWebDomainQueryResult(tokens[2]);
                     }
                 }
-                case "cfs" -> System.out.println("FILE cfs");
-                case "cws" -> System.out.println("WEB cws");
-                case "help" -> {//todo popravi help
+                case "cfs" -> {
+                    fileScannerResults.clear();
+                }
+                case "cws" ->{//todo ocisti listu skeniranih
+                    if (tokens[1].equals("-domain")) {
+                        if (!webScannerResults.containsKey(tokens[2])) System.err.println("Domain you entered is not scanned yet");
+                        webScannerResults.remove(tokens[2]);
+                        resultRetriever.clearCashStorage(ClearType.DOMAIN, tokens[2]);
+                    }
+                    else {
+                        webScannerResults.clear();
+                        webDomainResults.clear();
+                        resultRetriever.clearCashStorage(ClearType.ALL, null);
+                    }
+                }
+                case "help" -> {
                     System.out.println
                             (
                                     """
-                                    --> ad <directory path/ directory absolute path> : add file directory to scan
-                                    --> aw <https> : add web page to scan
-                                    --> get <corpus directory name> : gets result from scanned corpus directory
-                                    --> get -summary : gets all results so far
-                                    --> query <corpus directory name> : gets query result from scanned corpus directory
-                                    --> query -summary : gets all results that are done so far
+                                    --> ad < directory path/ directory absolute path > : add file directory to scan
+                                    --> aw < https://... > : add web page to scan
+                                    --> get 
+                                      ->  -file < corpus directory name > : get results for corpus directory
+                                      ->  -file -summary : get results for all scanned corpus directories
+                                      ->  -web < url domain name - example: "gatesnotes.com" > : get result for single domain
+                                      ->  -web -summary : get results for all scanned domains
+                                    --> query 
+                                      ->    -file < corpus directory name > : get results for corpus directory
+                                      ->    -file -summary : get results for all scanned corpus directories
+                                      ->    -web < url domain name example: "gatesnotes.com" > : get result for single domain
+                                      ->    -web -summary : get results for all scanned domains
                                     --> cfs : clears file scan results
                                     --> cws : clears web scan results
-                                    --> stop : stops the app and all the threads
+                                      ->   -domain < url domain name - example: "gatesnotes.com" > : brise rez za zeljeni domain
+                                    --> stop : stops all the threads and the app
                                     """
                             );
                 }
@@ -152,5 +160,6 @@ public class App {
         webScanner.terminate();
         jobDispatcher.terminate();
     }
+
 
 }

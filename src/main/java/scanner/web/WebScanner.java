@@ -5,7 +5,6 @@ import app.PropertyStorage;
 import job.jobs.WebJob;
 import result.results.WebScanResult;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
@@ -36,10 +35,9 @@ public class WebScanner extends Thread {
                 Future<Map<String, Integer>> webScanFuture = this.completionService.submit(new WebScannerWorker(webJob.getUrl(), webJob.getHopCount()));
                 if (!scannedUrls.containsKey(webJob.getUrl())) {//ako smo ga vec skenirali (nalazi se u mapi)
                     App.resultQueue.add(new WebScanResult(webJob.getUrl(), webScanFuture));
-                    scannedUrls.put(webJob.getUrl(), System.currentTimeMillis() + urlRefreshTime);
+                    scannedUrls.put(webJob.getUrl(), System.currentTimeMillis() + urlRefreshTime);//poredimo system_time < system_time(old) + wait_time
                 }
-                else System.err.println("url already scanned - " + webJob.getUrl());
-
+//                else System.err.println("url already scanned - " + webJob.getUrl());
             }
             catch (InterruptedException | URISyntaxException e) {
                 e.printStackTrace();

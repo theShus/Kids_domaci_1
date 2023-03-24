@@ -12,14 +12,13 @@ import java.util.concurrent.Future;
 public class WebScanResult implements Result{
 
     private final String url;
-    private String domain;
+    private final String domain;
     private final Future<Map<String, Integer>> futureResult;
     private Map<String, Integer> cachedResults = new HashMap<>();
 
     public WebScanResult(String url, Future<Map<String, Integer>> futureResult) throws URISyntaxException {
         this.url = url;
         this.futureResult = futureResult;
-
         this.domain = getDomainName(url);
     }
 

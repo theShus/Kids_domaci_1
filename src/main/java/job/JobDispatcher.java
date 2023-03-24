@@ -18,8 +18,8 @@ public class JobDispatcher extends Thread {
                 Job job = App.jobQueue.take();
 
                 if (job.getScanType() == ScanType.FILE) {
-                    System.err.println(((DirectoryJob) job).getCorpusName() + " dodat u FJqueue");
-//                    App.directoryJobQueue.put((DirectoryJob) job);
+//                    System.err.println(((DirectoryJob) job).getCorpusName() + " dodat u FJqueue");
+                    App.directoryJobQueue.put((DirectoryJob) job);
                 }
                 else if (job.getScanType() == ScanType.WEB) {//todo proveri dal je ovo dobro
 //                    System.err.println(((WebJob) job).getUrl() + " dodat u WBqueue");

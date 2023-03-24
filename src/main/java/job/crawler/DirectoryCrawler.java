@@ -42,7 +42,6 @@ public class DirectoryCrawler extends Thread {
         for (File file : listFiles) {
             if (file.isDirectory()) {
                 if (file.getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix())) {
-//                    System.out.println("Corpus dir: -" + file.getName());
                     addJobToQueue(file);
                 }
                 crawl(file);
