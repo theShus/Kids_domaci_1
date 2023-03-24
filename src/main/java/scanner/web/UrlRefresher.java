@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class UrlRefresher extends Thread {
 
-    private Map<String, Long> scannedUrls;
+    private final Map<String, Long> scannedUrls;
     private boolean running = true;
 
 

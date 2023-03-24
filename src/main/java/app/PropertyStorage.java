@@ -47,10 +47,6 @@ public class PropertyStorage {
     }
 
 
-    public Properties getProperties() {
-        return properties;
-    }
-
     public List<String> getKeywords() {
         return keywords;
     }

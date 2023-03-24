@@ -2,7 +2,6 @@ package scanner.web;
 
 import app.App;
 import app.PropertyStorage;
-import com.sun.source.tree.BreakTree;
 import job.ScanType;
 import job.jobs.WebJob;
 import org.jsoup.Jsoup;
@@ -11,7 +10,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.Callable;

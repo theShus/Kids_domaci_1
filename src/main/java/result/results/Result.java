@@ -7,6 +7,6 @@ import java.util.Map;
 public interface Result {
     ScanType getScanType();
 
-    public Map<String, Integer> getResult();
-    public Map<String, Integer> getQueryResult();
+    Map<String, Integer> getResult();
+    Map<String, Integer> getQueryResult();
 }

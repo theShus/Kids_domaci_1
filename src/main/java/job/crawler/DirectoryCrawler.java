@@ -11,8 +11,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DirectoryCrawler extends Thread {
 
-    private HashMap<String, Long> lastModifiedMap;
-    private CopyOnWriteArrayList<String> dirsToCrawl;
+    private final HashMap<String, Long> lastModifiedMap;
+    private final CopyOnWriteArrayList<String> dirsToCrawl;
     private boolean running = true;
 
 

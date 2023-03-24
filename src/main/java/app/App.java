@@ -59,8 +59,6 @@ public class App {
         String line;
         String[] tokens;
         String command;
-//        String path = null;
-        List<String> attributes;
 
         while (true) {
             line = cli.nextLine().trim();
@@ -93,7 +91,7 @@ public class App {
                 }
                 case "query" -> {
                     if (tokens[1].equals("-file")){
-                        if (tokens[2].equals("-summary")) resultRetriever.getFileSummary();
+                        if (tokens[2].equals("-summary")) resultRetriever.getFileQuerySummary();
                         else resultRetriever.getFileQueryResult(tokens[2]);
                     }
                     else if (tokens[1].equals("-web")){
@@ -101,9 +99,7 @@ public class App {
                         else resultRetriever.getWebDomainQueryResult(tokens[2]);
                     }
                 }
-                case "cfs" -> {
-                    fileScannerResults.clear();
-                }
+                case "cfs" -> fileScannerResults.clear();
                 case "cws" ->{
                     if (tokens[1].equals("-domain")) {
                         if (!webScannerResults.containsKey(tokens[2])) System.err.println("Domain you entered is not scanned yet");
@@ -116,29 +112,27 @@ public class App {
                         resultRetriever.clearCashStorage(ClearType.ALL, null);
                     }
                 }
-                case "help" -> {
-                    System.out.println
-                            (
-                                    """
-                                    --> ad < directory path/ directory absolute path > : add file directory to scan
-                                    --> aw < https://... > : add web page to scan
-                                    --> get 
-                                      ->  -file < corpus directory name > : get results for corpus directory
-                                      ->  -file -summary : get results for all scanned corpus directories
-                                      ->  -web < url domain name - example: "gatesnotes.com" > : get result for single domain
-                                      ->  -web -summary : get results for all scanned domains
-                                    --> query 
-                                      ->    -file < corpus directory name > : get results for corpus directory
-                                      ->    -file -summary : get results for all scanned corpus directories
-                                      ->    -web < url domain name example: "gatesnotes.com" > : get result for single domain
-                                      ->    -web -summary : get results for all scanned domains
-                                    --> cfs : clears file scan results
-                                    --> cws : clears web scan results
-                                      ->   -domain < url domain name - example: "gatesnotes.com" > : brise rez za zeljeni domain
-                                    --> stop : stops all the threads and the app
-                                    """
-                            );
-                }
+                case "help" -> System.out.println
+                        (
+                                """
+                                --> ad < directory path/ directory absolute path > : add file directory to scan
+                                --> aw < https://... > : add web page to scan
+                                --> get\040
+                                  ->  -file < corpus directory name > : get results for corpus directory
+                                  ->  -file -summary : get results for all scanned corpus directories
+                                  ->  -web < url domain name - example: "gatesnotes.com" > : get result for single domain
+                                  ->  -web -summary : get results for all scanned domains
+                                --> query\040
+                                  ->    -file < corpus directory name > : get results for corpus directory
+                                  ->    -file -summary : get results for all scanned corpus directories
+                                  ->    -web < url domain name example: "gatesnotes.com" > : get result for single domain
+                                  ->    -web -summary : get results for all scanned domains
+                                --> cfs : clears file scan results
+                                --> cws : clears web scan results
+                                  ->   -domain < url domain name - example: "gatesnotes.com" > : brise rez za zeljeni domain
+                                --> stop : stops all the threads and the app
+                                """
+                        );
                 case "stop" -> {
                     System.out.println("STOPPING");
                     stopThreads();

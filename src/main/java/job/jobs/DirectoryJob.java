@@ -1,14 +1,7 @@
 package job.jobs;
 
 
-import app.App;
 import job.ScanType;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
-import java.util.concurrent.RecursiveTask;
 
 public class DirectoryJob implements Job{
 
