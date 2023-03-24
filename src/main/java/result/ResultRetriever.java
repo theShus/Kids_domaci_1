@@ -17,6 +17,7 @@ public class ResultRetriever extends Thread {
     private final ExecutorCompletionService<Map<String, Integer>> completionService;
     private final Map<String, Map<String, Integer>> webDomainResultsCash = new ConcurrentHashMap<>();
     private final Map<String, Map<String, Integer>> webDomainQueryResultsCash = new ConcurrentHashMap<>();
+    private boolean running = true;
     //todo clear cash u nekom trenutku
 
     public ResultRetriever() {
@@ -26,19 +27,18 @@ public class ResultRetriever extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 Result result = App.resultQueue.take();
 
                 if (result.getScanType() == ScanType.FILE) {
-                    System.err.println(((DirScanResult) result).getCorpusName() + " dodat u FS results");
+//                    System.err.println(((DirScanResult) result).getCorpusName() + " dodat u FS results");
                     DirScanResult dirScanResult = (DirScanResult) result;
                     App.fileScannerResults.put(dirScanResult.getCorpusName(), dirScanResult);
                 } else if (result.getScanType() == ScanType.WEB) {
-                    System.err.println(((WebScanResult) result).getUrl() + " dodat u WS results");
+//                    System.err.println(((WebScanResult) result).getUrl() + " dodat u WS results");
                     WebScanResult webScanResult = (WebScanResult) result;
                     App.webScannerResults.put(webScanResult.getUrl(), webScanResult);
-//                    App.webScannerResults.put("test", webScanResult);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -192,5 +192,8 @@ public class ResultRetriever extends Thread {
         }
     }
 
+    public void terminate(){
+        running = false;
+    }
 
 }

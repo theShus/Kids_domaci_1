@@ -7,10 +7,13 @@ import job.jobs.WebJob;
 
 public class JobDispatcher extends Thread {
 
+    private boolean running = true;
+
+
     @Override
     public void run() {
 
-        while (true) {
+        while (running) {
             try {
                 Job job = App.jobQueue.take();
 
@@ -27,5 +30,9 @@ public class JobDispatcher extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void terminate(){
+        running = false;
     }
 }

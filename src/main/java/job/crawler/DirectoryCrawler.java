@@ -13,6 +13,7 @@ public class DirectoryCrawler extends Thread {
 
     private HashMap<String, Long> lastModifiedMap;
     private CopyOnWriteArrayList<String> dirsToCrawl;
+    private boolean running = true;
 
 
     public DirectoryCrawler(CopyOnWriteArrayList<String> dirsToCrawl) {
@@ -22,7 +23,7 @@ public class DirectoryCrawler extends Thread {
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
+        while (running) {
             try {
                 for (String path : dirsToCrawl) {
                     crawl(new File(path));
@@ -64,7 +65,8 @@ public class DirectoryCrawler extends Thread {
         }
     }
 
-    public CopyOnWriteArrayList<String> getDirsToCrawl() {
-        return dirsToCrawl;
+    public void terminate(){
+        running = false;
     }
+
 }

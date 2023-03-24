@@ -11,6 +11,7 @@ import result.results.DirScanResult;
 import result.results.Result;
 import result.results.WebScanResult;
 import scanner.file.FileScanner;
+import scanner.web.UrlRefresher;
 import scanner.web.WebScanner;
 
 import java.util.*;
@@ -38,6 +39,7 @@ public class App {
     private static final FileScanner fileScanner = new FileScanner();
     private static final WebScanner webScanner = new WebScanner();
     private static final JobDispatcher jobDispatcher = new JobDispatcher();
+
 
 
     //todo list
@@ -117,27 +119,38 @@ public class App {
                     System.out.println
                             (
                                     """
-                                            --> ad <directory path/ directory absolute path> : add file directory to scan
-                                            --> aw <https> : add web page to scan
-                                            --> get <corpus directory name> : gets result from scanned corpus directory
-                                            --> get -summary : gets all results so far
-                                            --> query <corpus directory name> : gets query result from scanned corpus directory
-                                            --> query -summary : gets all results that are done so far
-                                            --> cfs : clears file scan results
-                                            --> cws : clears web scan results
-                                            --> stop : stops the app and all the threads
-                                            """
+                                    --> ad <directory path/ directory absolute path> : add file directory to scan
+                                    --> aw <https> : add web page to scan
+                                    --> get <corpus directory name> : gets result from scanned corpus directory
+                                    --> get -summary : gets all results so far
+                                    --> query <corpus directory name> : gets query result from scanned corpus directory
+                                    --> query -summary : gets all results that are done so far
+                                    --> cfs : clears file scan results
+                                    --> cws : clears web scan results
+                                    --> stop : stops the app and all the threads
+                                    """
                             );
                 }
                 case "stop" -> {
                     System.out.println("STOPPING");
-//                    commander.stopThreads();
+                    stopThreads();
                     cli.close();
                     return;
                 }
                 default -> System.err.println("Unknown command 😞");
             }
         }
+    }
+
+
+    //https://stackoverflow.com/questions/10961714/how-to-properly-stop-the-thread-in-java
+    private void stopThreads(){
+        resultRetriever.terminate();
+        directoryCrawler.terminate();
+        fileScanner.terminate();
+        webScanner.terminateRefresher();
+        webScanner.terminate();
+        jobDispatcher.terminate();
     }
 
 }

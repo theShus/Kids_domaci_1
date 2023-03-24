@@ -17,6 +17,8 @@ public class FileScanner extends Thread {
 
     //https://www.baeldung.com/java-executor-service-tutorial
     private final ExecutorCompletionService<Map<String, Integer>> completionService;//koristimo ga jer ima queue u sebi i daje nam rezulate cim se zavrsi task
+    private boolean running = true;
+
 
     public FileScanner() {
         ExecutorService threadPool = Executors.newCachedThreadPool();
@@ -26,7 +28,7 @@ public class FileScanner extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 DirectoryJob directoryJob = App.directoryJobQueue.take();
                 divideFiles(directoryJob.getCorpusName(), directoryJob.getPath());
@@ -63,4 +65,7 @@ public class FileScanner extends Thread {
         App.resultQueue.add(new DirScanResult(corpusDirName, dirScanResults));
     }
 
+    public void terminate(){
+        running = false;
+    }
 }
