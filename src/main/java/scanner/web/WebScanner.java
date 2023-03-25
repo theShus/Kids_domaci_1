@@ -13,15 +13,16 @@ public class WebScanner extends Thread {
 
     private final UrlRefresher urlRefresher;
     private final ExecutorCompletionService<Map<String, Integer>> completionService;
-    private final Map<String, Long> scannedUrls = new ConcurrentHashMap<>();
+    private final Map<String, Long> scannedUrls;
     private final long urlRefreshTime = PropertyStorage.getInstance().getUrl_refresh_time();
     private boolean running = true;
 
 
-    public WebScanner() {
+    public WebScanner(UrlRefresher urlRefresher, Map<String, Long> scannedUrls) {
         ExecutorService threadPool = Executors.newCachedThreadPool();
         this.completionService = new ExecutorCompletionService<>(threadPool);
-        urlRefresher = new UrlRefresher(scannedUrls);
+        this.scannedUrls = scannedUrls;
+        this.urlRefresher = urlRefresher;
         urlRefresher.setDaemon(true); //samo brise url-ove koji su vec skenirani, moze da bude lower priority thread
     }
 

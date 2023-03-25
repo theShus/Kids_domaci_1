@@ -206,12 +206,24 @@ public class ResultRetriever extends Thread {
         }
     }
 
+
     public void clearCashStorage(ClearType clearType, String domain){
         if (clearType == ClearType.ALL){
             webDomainResultsCash.clear();
             webDomainQueryResultsCash.clear();
         }
         else if (clearType == ClearType.DOMAIN){
+            getAllDomains();
+
+            if (!allDomains.contains(domain)) {
+                System.err.println("Domain you entered is not scanned yet");
+                return;
+            }
+
+            for (Map.Entry<String, WebScanResult> result : App.webScannerResults.entrySet()) {
+                if (result.getKey().contains(domain)) App.webScannerResults.remove(result.getKey());
+            }
+            App.urlRefresher.clearDomain(domain);
             webDomainResultsCash.remove(domain);
             webDomainQueryResultsCash.remove(domain);
         }

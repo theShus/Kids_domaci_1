@@ -13,6 +13,7 @@ import result.results.DirScanResult;
 import result.results.Result;
 import result.results.WebScanResult;
 import scanner.file.FileScanner;
+import scanner.web.UrlRefresher;
 import scanner.web.WebScanner;
 
 import java.util.*;
@@ -23,6 +24,7 @@ public class App {
 
     //Else
     private static final CopyOnWriteArrayList<String> dirsToCrawl = new CopyOnWriteArrayList<>();
+    private static final Map<String, Long> scannedUrls = new ConcurrentHashMap<>();
     public static final Logger logger = new Logger();
 
     //Queues
@@ -40,7 +42,8 @@ public class App {
     private static final ResultRetriever resultRetriever = new ResultRetriever();
     private static final DirectoryCrawler directoryCrawler = new DirectoryCrawler(dirsToCrawl);
     private static final FileScanner fileScanner = new FileScanner();
-    private static final WebScanner webScanner = new WebScanner();
+    public static final UrlRefresher urlRefresher = new UrlRefresher(scannedUrls);
+    private static final WebScanner webScanner = new WebScanner(urlRefresher, scannedUrls);
     private static final JobDispatcher jobDispatcher = new JobDispatcher();
 
 
@@ -88,6 +91,11 @@ public class App {
                     jobQueue.add(new WebJob(ScanType.WEB, tokens[1], PropertyStorage.getInstance().getHop_count()));
                 }
                 case "get" -> {
+                    if (tokens.length < 2) {
+                        System.err.println("Badly entered command ☠");
+                        continue;
+                    }
+
                     if (tokens[1].equals("-file")){
                         if (tokens[2].equals("-summary")) resultRetriever.getFileSummary();
                         else resultRetriever.getFileResult(tokens[2]);
@@ -96,8 +104,14 @@ public class App {
                         if (tokens[2].equals("-summary")) resultRetriever.getWebDomainSummary();
                         else resultRetriever.getDomainResult(tokens[2]);
                     }
+                    else System.err.println("Badly entered command ☠");
                 }
                 case "query" -> {
+                    if (tokens.length < 2) {
+                        System.err.println("Badly entered command ☠");
+                        continue;
+                    }
+
                     if (tokens[1].equals("-file")){
                         if (tokens[2].equals("-summary")) resultRetriever.getFileQuerySummary();
                         else resultRetriever.getFileQueryResult(tokens[2]);
@@ -106,6 +120,7 @@ public class App {
                         if (tokens[2].equals("-summary")) resultRetriever.getWebDomainQuerySummary();
                         else resultRetriever.getWebDomainQueryResult(tokens[2]);
                     }
+                    else System.err.println("Badly entered command ☠");
                 }
                 case "cfs" -> {
                     logger.cli("Wiping stored results from file scanning 💀");
@@ -113,16 +128,16 @@ public class App {
                 }
                 case "cws" ->{
                     logger.cli("Wiping stored results from web scanning 💀");
-                    if (tokens[1].equals("-domain")) {
-                        if (!webScannerResults.containsKey(tokens[2])) System.err.println("Domain you entered is not scanned yet");
-                        webScannerResults.remove(tokens[2]);
+
+                    if (tokens.length >= 3 && tokens[1].equals("-domain")) {
                         resultRetriever.clearCashStorage(ClearType.DOMAIN, tokens[2]);
                     }
-                    else {
+                    else if (tokens.length == 1){
                         webScannerResults.clear();
                         webDomainResults.clear();
                         resultRetriever.clearCashStorage(ClearType.ALL, null);
                     }
+                    else System.err.println("Badly entered command ☠");
                 }
                 case "help" -> logger.cli
                         (

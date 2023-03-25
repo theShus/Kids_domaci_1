@@ -28,6 +28,12 @@ public class UrlRefresher extends Thread {
         }
     }
 
+    public void clearDomain(String domain){
+        for (Map.Entry<String, Long> url: scannedUrls.entrySet()) {
+            if (url.getKey().contains(domain)) scannedUrls.remove(url.getKey());
+        }
+    }
+
     public void terminate(){
         running = false;
     }
