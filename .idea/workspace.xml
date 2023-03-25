@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="dodati scheckovi za cws, i popravljeno brisanje za domain">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/example/data3/corpus_troll/testImage.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/crawler/DirectoryCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/crawler/DirectoryCrawler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/logger/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logger/Logger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/file/FileScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/file/FileScanner.java" afterDir="false" />
+    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="dodati checkovi za file type">
+      <change beforePath="$PROJECT_DIR$/src/main/resources/commants.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/commants.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +81,7 @@
       <workItem from="1679564735299" duration="36711000" />
       <workItem from="1679649678824" duration="16043000" />
       <workItem from="1679666920313" duration="5958000" />
-      <workItem from="1679741192469" duration="8683000" />
+      <workItem from="1679741192469" duration="8867000" />
     </task>
     <task id="LOCAL-00001" summary="Prolaz kroz direktorijume, i pocet rad na job-ovima">
       <created>1679516269629</created>
@@ -262,7 +258,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679749817215</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="dodati checkovi za file type">
+      <created>1679751145458</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1679751145458</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -304,7 +307,8 @@
     <MESSAGE value="error catcher za pogresan file dir" />
     <MESSAGE value="dodat error catcher za pogresan url" />
     <MESSAGE value="dodati scheckovi za cws, i popravljeno brisanje za domain" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodati scheckovi za cws, i popravljeno brisanje za domain" />
+    <MESSAGE value="dodati checkovi za file type" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodati checkovi za file type" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Kids_domaci_1$Main.ic" NAME="Main Coverage Results" MODIFIED="1679566282935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
