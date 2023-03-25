@@ -42,7 +42,6 @@ public class WebScanner extends Thread {
 
                 //ako smo ga vec skenirali ne submituj job
                 if (!scannedUrls.containsKey(webJob.getUrl())) {
-                    System.out.println(webJob.getUrl());
                     App.resultQueue.add(new WebScanResult(webJob.getUrl(), webScanFuture));
                     scannedUrls.put(webJob.getUrl(), System.currentTimeMillis() + urlRefreshTime);//poredimo system_time < system_time(old) + wait_time
                 }

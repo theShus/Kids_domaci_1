@@ -11,10 +11,10 @@ public class Logger {
     private static final boolean crawlerJobDetection = true;
 
     //Threads / Jobs
-    private static final boolean jobDispatcher = true;
-    private static final boolean fileScanner = true;
-    private static final boolean webScanner = true;
-    private static final boolean urlAlreadyScanned = true;
+    private static final boolean jobDispatcher = false;
+    private static final boolean fileScanner = false;
+    private static final boolean webScanner = false;
+    private static final boolean urlAlreadyScanned = false;
 
     //Results
     private static final boolean resultRetrieverSorter = false;

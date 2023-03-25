@@ -32,8 +32,8 @@ public class WebScannerWorker implements Callable<Map<String, Integer>> {
         try {
             Document website = Jsoup.connect(urlToScan).get();
 
-
-            results = countWords();//vraca rezultat brojanja stranice gde se trenutno nalazimo
+            //vraca rezultat brojanja stranice gde se trenutno nalazimo
+            results = countWords(website);
 
             //pravimo nove web job-ove od url-ova na ternutnom web site-u
             if (hopCount > 0) {
@@ -42,7 +42,7 @@ public class WebScannerWorker implements Callable<Map<String, Integer>> {
                 }
             }
 
-        } catch (IOException | URISyntaxException e) {
+        } catch (Exception ex) {
             System.err.println("Unreachable url: " + urlToScan);
         }
 
@@ -51,26 +51,21 @@ public class WebScannerWorker implements Callable<Map<String, Integer>> {
 
 
     //prodje kroz sve reci na website-u i prebroji ih ako su keywords
-    private Map<String, Integer> countWords() {
+    private Map<String, Integer> countWords(Document website) {
         Map<String, Integer> results = new HashMap<>();
         String word;
 
         for (String key : keywords) results.put(key, 0); //Stavimo sve kljuceve na  0
 
-        try {
-            Scanner websiteFile = new Scanner(Jsoup.connect(urlToScan).get().text());
+        Scanner websiteFile = new Scanner(website.text());
 
-            while (websiteFile.hasNext()) {
-                word = websiteFile.next();
-                if (keywords.contains(word)) {
-                    results.put(word, results.get(word) + 1);
-                }
+        while (websiteFile.hasNext()) {
+            word = websiteFile.next();
+            if (keywords.contains(word)) {
+                results.put(word, results.get(word) + 1);
             }
-            websiteFile.close();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        websiteFile.close();
         return results;
     }
 
