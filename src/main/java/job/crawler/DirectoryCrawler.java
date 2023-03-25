@@ -27,7 +27,7 @@ public class DirectoryCrawler extends Thread {
         while (running) {
             try {
                 for (String path : dirsToCrawl) {
-                    crawl(new File(path));
+                     crawl(new File(path), path);
                 }
                 Thread.sleep(PropertyStorage.getInstance().getDir_crawler_sleep_time());
             } catch (InterruptedException e) {
@@ -38,16 +38,22 @@ public class DirectoryCrawler extends Thread {
 
     //nadje corpus direktorijume
     //pretovori ih u File job i prosledi lastModified-checku da stavi na JobQueue za JobDispatcher
-    private void crawl(File inputFile) throws InterruptedException {
+    private void crawl(File inputFile, String path) throws InterruptedException {
         File[] listFiles = inputFile.listFiles();
-        assert listFiles != null;
+
+        if (listFiles == null) {
+            System.err.println("Given file can not be found/opened ☠");
+            dirsToCrawl.remove(path);
+            return;
+        }
+
         for (File file : listFiles) {
             if (file.isDirectory()) {
                 if (file.getName().startsWith(PropertyStorage.getInstance().getFile_corpus_prefix())) {
                     App.logger.logCrawler("Found corpus directory " + file.getName());
                     addJobToQueue(file);
                 }
-                crawl(file);
+                crawl(file,path);
             }
         }
     }

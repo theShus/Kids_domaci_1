@@ -72,10 +72,18 @@ public class App {
 
             switch (command) {//todo dodaj cli checkove
                 case "ad" -> {
+                    if (tokens.length > 2){
+                        System.err.println("Too many argument");
+                        continue;
+                    }
                     logger.cli("Added directory to scan list 🦊");
                     dirsToCrawl.add(tokens[1]);
                 }
                 case "aw" -> {
+                    if (tokens.length > 2){
+                        System.err.println("Too many argument");
+                        continue;
+                    }
                     logger.cli("Added url to scan list 🐺");
                     jobQueue.add(new WebJob(ScanType.WEB, tokens[1], PropertyStorage.getInstance().getHop_count()));
                 }
