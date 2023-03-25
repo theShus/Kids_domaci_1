@@ -8,11 +8,11 @@ public class Logger {
 
     //Crawler
     private static final boolean logCrawler = false;
-    private static final boolean crawlerJobDetection = true;
+    private static final boolean crawlerJobDetection = false;
 
     //Threads / Jobs
     private static final boolean jobDispatcher = false;
-    private static final boolean fileScanner = false;
+    private static final boolean fileScanner = true;
     private static final boolean webScanner = false;
     private static final boolean urlAlreadyScanned = false;
 

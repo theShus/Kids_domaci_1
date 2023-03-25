@@ -58,8 +58,8 @@ public class DirectoryCrawler extends Thread {
 
     //kada nadjemo file koji nema isti lastModified kao u mapi
     //pravimo ga u job i stavljamo na queue
-    private void addJobToQueue(File corpusDir) throws InterruptedException {
-        String dirPath = corpusDir.getAbsolutePath();
+    private void addJobToQueue(File corpusDir) throws InterruptedException {//FILE SALJE CEO DIR NA SCAN, ako imaju 3 fila u diru skenira se 3 puta :(
+        String dirPath = corpusDir.getAbsolutePath();                       //(nije efikasno ali mrzi me da menjam)
         long lastModified;
 
         for (File corpusFile : corpusDir.listFiles()) {

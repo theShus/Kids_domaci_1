@@ -3,6 +3,7 @@ package scanner.file;
 import app.App;
 import app.PropertyStorage;
 import job.jobs.DirectoryJob;
+import logger.Color;
 import result.results.DirScanResult;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,21 +46,30 @@ public class FileScanner extends Thread {
         long fileLengthSum = 0;
         File[] corpusFilesToDivide = new File(corpusDirPath).listFiles();
 
+        if (corpusFilesToDivide == null){
+            System.err.println(corpusDirName + " is empty");
+            return;
+        }
+
         //prolazi i sabiraj filove, ako je zbir veci od dozvoljenog
         //pokreni thread sa prikupljenim
         //nastavi da saklupljas dalje dok ne ostanes bez filova u corpus direktorijumu
-        assert corpusFilesToDivide != null;
         for (File file : corpusFilesToDivide) {
-            fileLengthSum += file.length();
-            dividedFiles.add(file);
+            String fileExtension = file.getName().split("\\.")[1];
+            if (fileExtension.equals("txt") || fileExtension.equals("json")) {
+                fileLengthSum += file.length();
+                dividedFiles.add(file);
 
-            if (fileLengthSum > limit) {
-                //u listu rezultata stavimo <- rezultat dir scannera <- koji je dobio listu podeljenih filova
-                dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
+                if (fileLengthSum > limit) {
+                    //u listu rezultata stavimo <- rezultat dir scannera <- koji je dobio listu podeljenih filova
+                    dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
 
-                fileLengthSum = 0;
-                dividedFiles.clear();
+                    fileLengthSum = 0;
+                    dividedFiles.clear();
+                }
             }
+            else App.logger.fileScanner(Color.RED + file.getName() + " is not readable");
+
         }
         if (!dividedFiles.isEmpty()) {
             dirScanResults.add(this.completionService.submit(new FileScannerWorker(dividedFiles)));
