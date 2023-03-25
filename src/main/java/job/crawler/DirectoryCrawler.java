@@ -2,10 +2,8 @@ package job.crawler;
 
 import app.App;
 import app.PropertyStorage;
-import jdk.swing.interop.SwingInterOpUtils;
-import job.jobs.DirectoryJob;
 import job.ScanType;
-
+import job.jobs.DirectoryJob;
 import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
