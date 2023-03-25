@@ -34,14 +34,15 @@ public class WebScanner extends Thread {
         //ako nije na block listi daj scanner workeru da prebroji
         //rezultat stavi u rez queue
 
+
         while (running) {
             try {
                 WebJob webJob = App.webJobQueue.take();
-
                 Future<Map<String, Integer>> webScanFuture = this.completionService.submit(new WebScannerWorker(webJob.getUrl(), webJob.getHopCount()));
 
-                //ako smo ga vec skenirali ne submituj job//todo popravi bug sa domenima (prikazuje samo jedan domen iz nekog razloga)
+                //ako smo ga vec skenirali ne submituj job
                 if (!scannedUrls.containsKey(webJob.getUrl())) {
+                    System.out.println(webJob.getUrl());
                     App.resultQueue.add(new WebScanResult(webJob.getUrl(), webScanFuture));
                     scannedUrls.put(webJob.getUrl(), System.currentTimeMillis() + urlRefreshTime);//poredimo system_time < system_time(old) + wait_time
                 }

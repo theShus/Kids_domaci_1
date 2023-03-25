@@ -89,12 +89,20 @@ public class ResultRetriever extends Thread {
     public void getWebDomainSummary() {
         getAllDomains();
 
+        if (webDomainResultsCash.size() >= allDomains.size()){
+            for (Map.Entry<String, Map<String, Integer>> domainRes : webDomainResultsCash.entrySet()) {
+                App.logger.resultRetriever("Cashed result for: " + domainRes.getKey() + " = " + domainRes.getValue());
+            }
+            return;
+        }
+
         for (String dUrl : allDomains)
             App.webDomainResults.put(dUrl, this.completionService.submit(new WebDomainSumWorker(dUrl)));
-        App.logger.resultRetriever(">> submitted " + allDomains.size() + " domains to calculate results");
+        App.logger.resultRetriever("Submitted " + allDomains.size() + " domains to calculate results");
 
         try {
             for (Map.Entry<String, Future<Map<String, Integer>>> domainRes : App.webDomainResults.entrySet()) {
+                webDomainResultsCash.put(domainRes.getKey(), domainRes.getValue().get());
                 App.logger.resultRetriever("Result for: " + domainRes.getKey() + " = " + domainRes.getValue().get());
             }
         } catch (InterruptedException | ExecutionException e) {
@@ -128,12 +136,20 @@ public class ResultRetriever extends Thread {
     public void getWebDomainQuerySummary() {
         getAllDomains();
 
+        if (webDomainQueryResultsCash.size() >= allDomains.size()){
+            for (Map.Entry<String, Map<String, Integer>> domainRes : webDomainQueryResultsCash.entrySet()) {
+                App.logger.resultRetriever("Cashed query result for: " + domainRes.getKey() + " = " + domainRes.getValue());
+            }
+            return;
+        }
+
         for (String dUrl : allDomains)
             App.webDomainResults.put(dUrl, this.completionService.submit(new WebDomainQuerySumWorker(dUrl)));
         App.logger.resultRetriever(">> submitted " + allDomains.size() + " domains to query calculate results");
 
         try {
             for (Map.Entry<String, Future<Map<String, Integer>>> domainRes : App.webDomainResults.entrySet()) {
+                webDomainQueryResultsCash.put(domainRes.getKey(), domainRes.getValue().get());
                 App.logger.resultRetriever("Result for: " + domainRes.getKey() + " = " + domainRes.getValue().get());
             }
         } catch (InterruptedException | ExecutionException e) {

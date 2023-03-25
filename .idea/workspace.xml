@@ -4,24 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="code clean up">
-      <change afterPath="$PROJECT_DIR$/src/main/java/logger/Color.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logger/Logger.java" afterDir="false" />
+    <list default="true" id="3a70e3cc-aace-4049-80ac-29187f61373c" name="Changes" comment="dodat logger, napisani komentari (ima web domain scanner bug)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/PropertyStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/PropertyStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/JobDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/JobDispatcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job/crawler/DirectoryCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job/crawler/DirectoryCrawler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/result/ResultRetriever.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/ResultRetriever.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/result/WebDomainQuerySumWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/WebDomainQuerySumWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/result/results/DirScanResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/result/results/DirScanResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/file/FileScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/file/FileScanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/file/FileScannerWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/file/FileScannerWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/web/UrlRefresher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/web/UrlRefresher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/scanner/web/WebScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/web/WebScanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scanner/web/WebScannerWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scanner/web/WebScannerWorker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/app.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/app.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/example/data/corpus_riker/text2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/example/data/corpus_riker/text2.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +83,8 @@
       <workItem from="1679483018932" duration="31311000" />
       <workItem from="1679564735299" duration="36711000" />
       <workItem from="1679649678824" duration="16043000" />
-      <workItem from="1679666920313" duration="5800000" />
+      <workItem from="1679666920313" duration="5958000" />
+      <workItem from="1679741192469" duration="2865000" />
     </task>
     <task id="LOCAL-00001" summary="Prolaz kroz direktorijume, i pocet rad na job-ovima">
       <created>1679516269629</created>
@@ -224,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679665630842</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="dodat logger, napisani komentari (ima web domain scanner bug)">
+      <created>1679679129666</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1679679129666</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,7 +256,8 @@
     <MESSAGE value="dodato brisanje rezultata (pre ciscenja koda)" />
     <MESSAGE value="removed todos" />
     <MESSAGE value="code clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="code clean up" />
+    <MESSAGE value="dodat logger, napisani komentari (ima web domain scanner bug)" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodat logger, napisani komentari (ima web domain scanner bug)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Kids_domaci_1$Main.ic" NAME="Main Coverage Results" MODIFIED="1679566282935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
