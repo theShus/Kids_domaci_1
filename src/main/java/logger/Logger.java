@@ -8,7 +8,7 @@ public class Logger {
 
     //Crawler
     private static final boolean logCrawler = false;
-    private static final boolean crawlerJobDetection = false;
+    private static final boolean crawlerJobDetection = true;
 
     //Threads / Jobs
     private static final boolean jobDispatcher = false;

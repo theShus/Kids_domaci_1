@@ -73,7 +73,7 @@ public class App {
 
             if (line.isEmpty()) continue;
 
-            switch (command) {//todo dodaj cli checkove
+            switch (command) {
                 case "ad" -> {
                     if (tokens.length > 2){
                         System.err.println("Too many argument");
